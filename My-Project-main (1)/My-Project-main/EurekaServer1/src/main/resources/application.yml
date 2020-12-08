@@ -1,0 +1,16 @@
+# Configure this Discovery Server
+eureka:
+  instance:
+    preferIpAddress: true
+    hostname: ncs.in
+    appname: server
+  client:  # Not a client, don't register with yourself (unless running
+           # multiple discovery servers for redundancy)
+    serviceUrl:
+      defaultZone: http://localhost:9090/eureka/
+    
+    registerWithEureka: false
+    fetchRegistry: false
+    
+server:
+  port: 9090   # HTTP (Tomcat) port
