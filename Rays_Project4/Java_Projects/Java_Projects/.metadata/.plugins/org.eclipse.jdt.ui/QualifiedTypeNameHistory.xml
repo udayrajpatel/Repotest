@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
+<fullyQualifiedTypeName name="org.apache.log4j.chainsaw.Main"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="in.co.rays.proj4.model.RoleModel"/>
+<fullyQualifiedTypeName name="in.co.rays.proj4.ctl.BaseCtl"/>
+<fullyQualifiedTypeName name="in.co.rays.proj4.ctl.ORSView"/>
+<fullyQualifiedTypeName name="in.co.rays.proj4.model.StudentModel"/>
+<fullyQualifiedTypeName name="in.co.rays.proj4.bean.StudentBean"/>
+<fullyQualifiedTypeName name="in.co.rays.proj4.exception.DuplicateRecordException"/>
+<fullyQualifiedTypeName name="in.co.rays.proj4.exception.RecordNotFoundException"/>
+<fullyQualifiedTypeName name="in.co.rays.example.NextPkEx"/>
+<fullyQualifiedTypeName name="in.co.rays.example.aa"/>
+<fullyQualifiedTypeName name="in.co.rays.example.bb"/>
+<fullyQualifiedTypeName name="com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const"/>
+</qualifiedTypeNameHistroy>

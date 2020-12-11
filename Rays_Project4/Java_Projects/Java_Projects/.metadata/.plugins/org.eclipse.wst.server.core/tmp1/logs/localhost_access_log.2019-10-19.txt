@@ -1,0 +1,14 @@
+127.0.0.1 - - [19/Oct/2019:20:43:29 +0530] "GET / HTTP/1.1" 404 994
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:34 +0530] "GET /ORSProject4/ HTTP/1.1" 200 772
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:35 +0530] "GET /favicon.ico HTTP/1.1" 404 1016
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:36 +0530] "GET /ORSProject4/WelcomeCtl HTTP/1.1" 200 4800
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:37 +0530] "GET /resources/demos/style.css HTTP/1.1" 404 1044
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:37 +0530] "GET /ORSProject4/js/jquery-ui.js HTTP/1.1" 200 539419
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:37 +0530] "GET /ORSProject4/js/jquery-1.12.4.js HTTP/1.1" 200 304436
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:37 +0530] "GET /ORSProject4/css/jquery-ui.css HTTP/1.1" 200 37282
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:39 +0530] "GET /ORSProject4/LoginCtl HTTP/1.1" 200 5849
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:39 +0530] "GET /resources/demos/style.css HTTP/1.1" 404 1044
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:48 +0530] "POST /ORSProject4/LoginCtl HTTP/1.1" 200 6583
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:48 +0530] "GET /resources/demos/style.css HTTP/1.1" 404 1044
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:54 +0530] "GET /ORSProject4/LoginCtl?operation=logout HTTP/1.1" 200 5886
+0:0:0:0:0:0:0:1 - - [19/Oct/2019:20:43:54 +0530] "GET /resources/demos/style.css HTTP/1.1" 404 1044

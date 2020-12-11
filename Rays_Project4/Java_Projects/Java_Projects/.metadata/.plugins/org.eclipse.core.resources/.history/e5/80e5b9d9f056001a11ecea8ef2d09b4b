@@ -1,0 +1,15 @@
+package in.co.rays.example;
+
+public class bb extends aa {
+
+	@Override
+	private int add() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+
+	public static void main(String[] args) {
+		int 
+	}
+	
+}
