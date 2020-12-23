@@ -1,0 +1,46 @@
+package com.rays.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.ray.entity.Employee;
+import com.rays.dao.EmployeeDAO;
+
+public class EmployeeServiceImpl implements EmployeeService {
+
+    @Autowired  
+    private EmployeeDAO employeeDAO;
+
+	@Override
+	public Employee createEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Employee getEmployee(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Employee updateEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteEmployee(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Employee> getAllEmployees() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+}

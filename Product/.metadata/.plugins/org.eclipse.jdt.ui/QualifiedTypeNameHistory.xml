@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.PropertySource"/>
+<fullyQualifiedTypeName name="org.springframework.core.env.Environment"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.config.CassandraClusterFactoryBean"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.mapping.CassandraMappingContext"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.mapping.BasicCassandraMappingContext"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.convert.CassandraConverter"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.convert.MappingCassandraConverter"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.config.SchemaAction"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.core.CassandraTemplate"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.core.CassandraOperations"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.mapping.PrimaryKey"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.mapping.Column"/>
+<fullyQualifiedTypeName name="com.rays.util.CassandraUtil"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.Import"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
+<fullyQualifiedTypeName name="org.springframework.context.ApplicationContext"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.AnnotationConfigApplicationContext"/>
+<fullyQualifiedTypeName name="com.rays.configuration.MainAppConfiguration"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+<fullyQualifiedTypeName name="com.rays.dao.EmployeeDAO"/>
+<fullyQualifiedTypeName name="com.rays.dao.EmployeeDAOImpl"/>
+<fullyQualifiedTypeName name="com.rays.util.MyCassandraTemplate"/>
+<fullyQualifiedTypeName name="com.rays.service.EmployeeService"/>
+<fullyQualifiedTypeName name="org.springframework.transaction.annotation.Transactional"/>
+<fullyQualifiedTypeName name="com.rays.service.EmployeeServiceImpl"/>
+<fullyQualifiedTypeName name="com.rays.entity.Employee"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.BeanClassLoaderAware"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.Configuration"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="ch.qos.logback.core.pattern.Converter"/>
+<fullyQualifiedTypeName name="com.datastax.oss.driver.shaded.guava.common.collect.Table"/>
+<fullyQualifiedTypeName name="com.datastax.oss.driver.shaded.guava.common.base.Optional"/>
+<fullyQualifiedTypeName name="org.springframework.cassandra.core.cql.CqlIdentifier"/>
+<fullyQualifiedTypeName name="edu.umd.cs.findbugs.annotations.Nullable"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Value"/>
+<fullyQualifiedTypeName name="org.springframework.cassandra.core.keyspace.CreateKeyspaceSpecification"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.core.CassandraAdminTemplate"/>
+<fullyQualifiedTypeName name="com.ray.entity.Employee"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.config.CassandraSessionFactoryBean"/>
+<fullyQualifiedTypeName name="org.springframework.data.cassandra.core.mapping.BasicCassandraMappingContext"/>
+<fullyQualifiedTypeName name="org.apache.tools.ant.types.Environment"/>
+</qualifiedTypeNameHistroy>

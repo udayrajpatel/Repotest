@@ -1,0 +1,11 @@
+
+import org.junit.Test;
+  
+  @SpringBootTest 
+  
+  class ProjApplicationTests {
+  
+  @Test void contextLoads() { }
+  
+  }
+ 

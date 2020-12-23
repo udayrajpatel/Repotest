@@ -1,0 +1,72 @@
+package com.rays.client;
+import java.util.List;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import com.ray.entity.Employee;
+import com.rays.configuration.MainAppConfiguration;
+import com.rays.service.EmployeeService;
+
+
+public class Application {
+	
+	
+	
+	  @SuppressWarnings("resource")
+	    public static void main(String[] args) {
+	        
+		 
+	        ApplicationContext applicationContext = 
+	                   new AnnotationConfigApplicationContext(MainAppConfiguration.class);
+	        
+	        
+	        EmployeeService employeeService = applicationContext.getBean(EmployeeService.class);
+	        
+		
+		  Employee employee = new Employee(5,"Ravina",90000);
+		  
+		  employee=employeeService.createEmployee(employee);
+		  
+		  System.out.println("After Creattion Employee Info: "+employee);
+		 
+	        
+		
+		/* System.out.println("Displaying all Employee Info "); */
+		  
+		
+		/*
+		 * List<Employee> employees = employeeService.getAllEmployees();
+		 * 
+		 * employees.forEach(emp -> {
+		 * 
+		 * System.out.println(emp);});
+		 */
+		  
+		
+		
+		/*
+		 * System.out.println("Updating the Employee Info:");
+		 * 
+		 * employee.setName("uday"); employee.setSalary(90000);
+		 * 
+		 * employeeService.updateEmployee(employee);
+		 * 
+		 * 
+		 * employee = employeeService.getEmployee(employee.getId());
+		 * 
+		 * System.out.println("After Updation Employee Info: "+employee);
+		 */
+		 
+		  
+		
+		  System.out.println("Deleting Employee Info ");
+		  
+		  employeeService.deleteEmployee(5);
+		  
+		  employee = employeeService.getEmployee(employee.getId());
+		  
+		  System.out.println("After Deletion Employee Info: "+employee);
+		 
+		  
+		 
+	    }
+}

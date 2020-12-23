@@ -1,0 +1,57 @@
+package com.rays.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ray.entity.Employee;
+import com.rays.dao.EmployeeDAO;
+
+public class EmployeeServiceImpl implements EmployeeService {
+
+    @Autowired  
+    private EmployeeDAO employeeDAO;
+
+    public EmployeeServiceImpl() {
+        super();    
+    }
+
+    @Override
+    
+    public Employee createEmployee(Employee employee) {     
+        return employeeDAO.createEmployee(employee);
+    }
+
+    @Override
+    @Transactional
+    public Employee getEmployee(int id) {       
+        return employeeDAO.getEmployee(id);
+    }
+
+    @Override
+    @Transactional
+    public Employee updateEmployee(Employee employee) {     
+        return employeeDAO.updateEmployee(employee);
+    }
+
+    @Override
+    @Transactional
+    public void deleteEmployee(int id) {        
+        employeeDAO.deleteEmployee(id);
+    }
+
+    @Override
+    @Transactional
+    public List<Employee> getAllEmployees() {       
+        return employeeDAO.getAllEmployees();
+    }
+
+	@Override
+	public Employee createEmployee(Object employee) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+}

@@ -1,0 +1,15 @@
+package com.rays.dao;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.rays.util.MyCassandraTemplate;
+
+
+public class EmployeeDAOImpl implements EmployeeDAO {
+    
+    @Autowired
+    private MyCassandraTemplate myCassandraTemplate;
+    
+   
+
+	
+}

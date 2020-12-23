@@ -1,0 +1,177 @@
+package com.rays.util;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+
+import org.springframework.data.cassandra.config.CassandraSessionFactoryBean;
+import org.springframework.data.cassandra.config.SchemaAction;
+import org.springframework.data.cassandra.core.CassandraOperations;
+import org.springframework.data.cassandra.core.CassandraTemplate;
+import org.springframework.data.cassandra.core.convert.CassandraConverter;
+import org.springframework.data.cassandra.core.convert.MappingCassandraConverter;
+import org.springframework.data.cassandra.core.mapping.BasicCassandraMappingContext;
+import org.springframework.data.cassandra.core.mapping.CassandraMappingContext;
+import org.springframework.beans.factory.Aware;
+import  org.springframework.beans.factory.BeanNameAware;
+import  org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+
+@SuppressWarnings("deprecation")
+@Configuration
+@PropertySource(value = { "classpath:cassandra.properties" })
+public class CassandraUtil {
+
+	/**
+	 * Constant String for Keyspace
+	 */
+	private static final String KEYSPACE = "cassandra.keyspace";
+	/**
+	 * Constant String for ContactPoints
+	 */
+	private static final String CONTACTPOINTS = "cassandra.contactpoints";
+	/**
+	 * Constant String for Port
+	 */
+	private static final String PORT = "cassandra.port";
+
+	@Autowired
+	private Environment environment;
+
+	public CassandraUtil() {
+		System.out.println("CassandraUtil()");
+	}
+
+	private String getKeyspaceName() {
+		return environment.getProperty(KEYSPACE);
+	}
+
+	private String getContactPoints() {
+		return environment.getProperty(CONTACTPOINTS);
+	}
+
+	private int getPortNumber() {
+		return Integer.parseInt(environment.getProperty(PORT));
+	}
+
+	/*
+	 * @Bean public CassandraClusterFactoryBean cluster() {
+	 * CassandraClusterFactoryBean cluster = new CassandraClusterFactoryBean();
+	 * cluster.setContactPoints("127.0.0.1"); cluster.setPort(9142); return cluster;
+	 * }
+	 */
+
+	
+	  @Bean
+	  public ClusterFactoryBean cluster() {
+		 
+	        CassandraClusterFactoryBean cluster = new CassandraClusterFactoryBean();
+	      
+	        cluster.setContactPoints(getContactPoints());
+	        
+	        cluster.setPort(getPortNumber());
+	        
+	        return cluster;
+	        
+	    }
+	 
+	/*
+	 * @Bean public CassandraMappingContext mappingContext() {
+	 * 
+	 * 
+	 * return new BasicCassandraMappingContext(); }
+	 */
+
+	@Bean
+	public CassandraMappingContext mappingContext() throws ClassNotFoundException {
+
+		CassandraMappingContext mappingContext = new BasicCassandraMappingContext();
+
+		return mappingContext;
+
+	}
+	/*
+	 * @Bean public CassandraMappingContext cassandraMapping() throws
+	 * ClassNotFoundException { return new BasicCassandraMappingContext(); }
+	 */
+
+	/*
+	 * @Bean public CassandraConverter converter() throws ClassNotFoundException {
+	 * 
+	 * 
+	 * return new MappingCassandraConverter(mappingContext());
+	 * 
+	 * 
+	 * }
+	 */
+
+	@Bean
+	public CassandraConverter Converter() throws ClassNotFoundException {
+
+		MappingCassandraConverter converter = new MappingCassandraConverter(mappingContext());
+
+		return converter;
+
+	}
+
+	@Bean
+	public CassandraSessionFactoryBean session() throws Exception {
+
+		CassandraSessionFactoryBean cassandraSessionFactoryBean = new CassandraSessionFactoryBean();
+
+		cassandraSessionFactoryBean.setCluster(cluster().getObject());
+
+		cassandraSessionFactoryBean.setKeyspaceName(getKeyspaceName());
+
+		cassandraSessionFactoryBean.setConverter(Converter());
+
+		cassandraSessionFactoryBean.setSchemaAction(SchemaAction.NONE);
+
+		return cassandraSessionFactoryBean;
+
+	}
+
+	/*
+	 * @Bean public CassandraSessionFactoryBean session() throws Exception {
+	 * 
+	 * CassandraSessionFactoryBean bean = new CassandraSessionFactoryBean();
+	 * 
+	 * bean.setCluster(cluster().getObject());
+	 * bean.setConverter(cassandraConverter());
+	 * bean.setSchemaAction(getSchemaAction());
+	 * bean.setKeyspaceName(getKeyspaceName());
+	 * 
+	 * return bean; }
+	 * 
+	 * @Override public SchemaAction getSchemaAction() { return
+	 * SchemaAction.RECREATE_DROP_UNUSED; }
+	 * 
+	 * @Override public String[] getEntityBasePackages() { return new String[]
+	 * {"com.example"}; //com.example package contains the bean with @table
+	 * annotation }
+	 */
+
+	
+	  @Bean
+	  
+	  public CassandraOperations cassandraTemplate() throws Exception {
+	  
+	  return new CassandraTemplate(session().getObject());
+	  
+	  
+	  }
+	 
+	  
+	/*
+	 * @Value("${cassandra.keyspace}") private String keySpace;
+	 * 
+	 * public String[] getEntityBasePackages() { return new
+	 * String[]{"com.rays.entity"}; }
+	 * 
+	 * protected List<CreateKeyspaceSpecification> getKeyspaceCreations() { return
+	 * Arrays.asList( CreateKeyspaceSpecification.createKeyspace() .name(keySpace)
+	 * .ifNotExists() ); }
+	 */
+
+}

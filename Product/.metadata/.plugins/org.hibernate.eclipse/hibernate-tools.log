@@ -1,0 +1,24 @@
+2020-12-15 13:54:49,320 2      [lcome Dashboard] ERROR re.templates.TemplateProcessor  - Problem while attempting to copy template directory
+org.eclipse.core.runtime.CoreException: Could not copy file from D:\eclipse19\eclipse19\plugins\org.springsource.ide.eclipse.commons.gettingstarted_3.9.12.202001132314-CI-B489\resources\welcome\common\bootstrap\js\bootstrap-datetimepicker\js\bootstrap-datetimepicker.min.js to C:\Rays\Product\.metadata\.plugins\org.springsource.ide.eclipse.commons.gettingstarted\dashboard\1608020681393\common\bootstrap\js\bootstrap-datetimepicker\js\bootstrap-datetimepicker.min.js
+	at org.springsource.ide.eclipse.commons.core.FileUtil.copyFile(FileUtil.java:75)
+	at org.springsource.ide.eclipse.commons.core.FileUtil.copyDirectory(FileUtil.java:56)
+	at org.springsource.ide.eclipse.commons.core.FileUtil.copyDirectory(FileUtil.java:53)
+	at org.springsource.ide.eclipse.commons.core.templates.TemplateProcessor.process(TemplateProcessor.java:62)
+	at org.springsource.ide.eclipse.commons.core.templates.TemplateProcessor.process(TemplateProcessor.java:72)
+	at org.springsource.ide.eclipse.commons.core.templates.TemplateProcessor.process(TemplateProcessor.java:72)
+	at org.springsource.ide.eclipse.commons.core.templates.TemplateProcessor.process(TemplateProcessor.java:72)
+	at org.springsource.ide.eclipse.commons.core.templates.TemplateProcessor.process(TemplateProcessor.java:72)
+	at org.springsource.ide.eclipse.commons.gettingstarted.dashboard.DashboardCopier._getCopy(DashboardCopier.java:86)
+	at org.springsource.ide.eclipse.commons.gettingstarted.dashboard.DashboardCopier.getCopy(DashboardCopier.java:62)
+	at org.springsource.ide.eclipse.commons.gettingstarted.dashboard.WelcomeDashboard$2.run(WelcomeDashboard.java:125)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.io.FileNotFoundException: C:\Rays\Product\.metadata\.plugins\org.springsource.ide.eclipse.commons.gettingstarted\dashboard\1608020681393\common\bootstrap\js\bootstrap-datetimepicker\js\bootstrap-datetimepicker.min.js (The process cannot access the file because it is being used by another process)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:162)
+	at org.springsource.ide.eclipse.commons.core.FileUtil.writeToFile(FileUtil.java:85)
+	at org.springsource.ide.eclipse.commons.core.FileUtil.copyFile(FileUtil.java:68)
+	... 11 more
+2020-12-15 13:54:53,332 4014   [lcome Dashboard] WARN  re.templates.TemplateProcessor  - May have failed to replace token 		//window.ide 'dummy'. Replaced/injected later by STS browser integration.
+2020-12-15 13:54:53,332 4014   [lcome Dashboard] WARN  re.templates.TemplateProcessor  - May have failed to replace token 		//The dummy helps preview/test the page in an external browser.
