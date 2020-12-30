@@ -24,9 +24,9 @@ import org.apache.log4j.Logger;
  * Change Password functionality Controller. Performs operation for Change
  * Password
  * 
- * @author SunilOS
+ * @uday
  * @version 1.0
- * @Copyright (c) SunilOS
+ * @Copyright (c) uday
  */
 
 @WebServlet(name = "ChangePasswordCtl", urlPatterns = { "/ctl/ChangePasswordCtl" })
