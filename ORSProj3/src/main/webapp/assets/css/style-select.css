@@ -1,0 +1,25 @@
+select option {
+	background-color: grey;
+	color: white;
+}
+.text-grey{
+	color: darkgrey !important;
+}
+select {
+	color: darkgrey !important;
+}
+::-webkit-input-placeholder {
+	color: darkgrey !important;
+}
+
+::-moz-placeholder {
+	color: darkgrey !important;
+}
+
+::-ms-placeholder {
+	color: darkgrey !important;
+}
+
+::placeholder {
+	color: darkgrey !important;
+}

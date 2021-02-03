@@ -1,7 +1,0 @@
-INDEX VERSION 1.3+D:\ORSProj3\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-2377679081.index
-3138169491.index
-1215115731.index
-4264484763.index
-3064805650.index
-2585682502.index
