@@ -1,15 +1,13 @@
 package in.co.rays.dto;
 
 /**
- * 
- * 
+ * Subject DTO encapsulates Subject attributes
  * @author uday
  *
  */
 public class SubjectDTO extends BaseDTO {
-
 	/**
-	 * 
+	 * Default serial version Id
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -29,8 +27,10 @@ public class SubjectDTO extends BaseDTO {
 	 * Description of Subject
 	 */
 	private String description;
-	
 
+	/**
+	 * accessor
+	 */
 	public String getName() {
 		return name;
 	}
@@ -69,7 +69,7 @@ public class SubjectDTO extends BaseDTO {
 	}
 
 	public String getValue() {
-		
+	
 		return name;
 	}
 

@@ -1,33 +1,26 @@
 package in.co.rays.util;
-
-
 import java.util.Properties;
 import java.util.ResourceBundle;
-
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import in.co.rays.exception.ApplicationException;
 
 /**
  * Email Utility provides Email Services
  * 
- * @author Ayush
- * @version 1.0
- * Copyright (c) Ayush
- * 
+ * @author uday
+ *
  */
-
 public class EmailUtility {
 
 	/**
 	 * Create Resource Bundle to read properties file
 	 */
-	static ResourceBundle rb = ResourceBundle.getBundle("in.co.sunrays.proj3.bundle.system");
+	static ResourceBundle rb = ResourceBundle.getBundle("in.co.rays.proj3.bundle.system");
 
 	/**
 	 * Email Server
@@ -86,8 +79,11 @@ public class EmailUtility {
 
 			// Connection to Mail Server
 			Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+				
 				protected PasswordAuthentication getPasswordAuthentication() {
+					
 					return new PasswordAuthentication(emailFromAddress, emailPassword);
+					
 				}
 			});
 

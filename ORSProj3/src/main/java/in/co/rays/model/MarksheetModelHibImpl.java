@@ -9,7 +9,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -22,6 +22,7 @@ import org.hibernate.criterion.Restrictions;
  *
  */
 
+@SuppressWarnings("deprecation")
 public class MarksheetModelHibImpl implements MarksheetModelInt {
 
     private static Logger log = Logger.getLogger(MarksheetModelHibImpl.class);
@@ -130,13 +131,22 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
     public MarksheetDTO findByRollNo(String rollNo) throws ApplicationException {
 
         log.debug("Model findByRollNo Started");
+        
         MarksheetDTO dto = null;
+        
         Session session = null;
+        
         try {
+        	
             session = HibDataSource.getSession();
+            
             Criteria criteria = session.createCriteria(MarksheetDTO.class);
+            
             criteria.add(Restrictions.eq("rollNo", rollNo));
-            List list = criteria.list();
+      
+            @SuppressWarnings("rawtypes")
+            
+			List list = criteria.list();
            
             if (list.size() == 1) {
             	
@@ -150,16 +160,23 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
 
             
         } catch (Exception e) {
+        	
             log.error(e);
+            
             throw new ApplicationException(
                     "Exception in getting Marksheet by Rollno "
                             + e.getMessage());
+            
 
         } finally {
+        	
             session.close();
+            
         }
+        
         log.debug("Model findByRollNo End");
         return dto;
+        
     }
 
     /**
@@ -172,9 +189,11 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
      * @throws
      */
     public MarksheetDTO findByPK(long pk) throws ApplicationException {
+    	
         log.debug("Model findByPK Started");
         Session session = null;
         MarksheetDTO dto = null;
+      
         try {
             session = HibDataSource.getSession();
             dto = (MarksheetDTO) session.get(MarksheetDTO.class, pk);
@@ -184,7 +203,9 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
                     "Exception in getting Marksheet by pk" + e.getMessage());
 
         } finally {
+        	
             session.close();
+            
         }
 
         log.debug("Model findByPK End");
@@ -200,6 +221,7 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
      */
     public void update(MarksheetDTO dto) throws ApplicationException,
             DuplicateRecordException {
+    	
         log.debug("Model update Started");
         Session session = null;
         Transaction transaction = null;
@@ -244,7 +266,8 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
      *            : Search Parameters
      * @throws ApplicationException
      */
-    public List search(MarksheetDTO dto) throws ApplicationException {
+    @SuppressWarnings("rawtypes")
+	public List search(MarksheetDTO dto) throws ApplicationException {
         return search(dto, 0, 0);
     }
 
@@ -261,7 +284,8 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
      * 
      * @throws ApplicationException
      */
-    public List search(MarksheetDTO dto, int pageNo, int pageSize)
+    @SuppressWarnings("rawtypes")
+	public List search(MarksheetDTO dto, int pageNo, int pageSize)
             throws ApplicationException {
 
         log.debug("Model search Started");
@@ -319,7 +343,8 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
      * @return list : List of Marksheets
      * @throws DatabaseException
      */
-    public List list() throws ApplicationException {
+    @SuppressWarnings("rawtypes")
+	public List list() throws ApplicationException {
 
         return list(0, 0);
     }
@@ -334,7 +359,8 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
      *            : Size of Page
      * @throws ApplicationException
      */
-    public List list(int pageNo, int pageSize) throws ApplicationException {
+    @SuppressWarnings("rawtypes")
+	public List list(int pageNo, int pageSize) throws ApplicationException {
         log.debug("Model list Started");
         Session session = null;
         List list = null;
@@ -387,7 +413,7 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
                 pageNo = (pageNo - 1) * pageSize;
                 
 
-            System.out.println(hql.toString());
+           // System.out.println(hql.toString());
             Query query = session.createQuery(hql.toString());
             if(pageSize>=0){
             	query.setFirstResult(pageNo);
@@ -404,6 +430,7 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
         }
 
         log.debug("Model getMeritList End");
+      
         return list;
     }
 

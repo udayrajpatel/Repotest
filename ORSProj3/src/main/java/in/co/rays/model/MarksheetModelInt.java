@@ -1,10 +1,8 @@
 package in.co.rays.model;
-
 import in.co.rays.dto.MarksheetDTO;
 import in.co.rays.exception.ApplicationException;
 import in.co.rays.exception.DatabaseException;
 import in.co.rays.exception.DuplicateRecordException;
-
 import java.util.List;
 
 /**

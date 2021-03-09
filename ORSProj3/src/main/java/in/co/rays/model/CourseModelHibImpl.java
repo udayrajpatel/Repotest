@@ -36,15 +36,21 @@ public class CourseModelHibImpl implements CourseModelInt {
 		Session session = null;
 		Transaction transaction = null;
 		try {
+			
 			session = HibDataSource.getSession();
 			transaction = session.beginTransaction();
 			session.save(dto);
 			pk = dto.getId();
 			transaction.commit();
+			
 		} catch (HibernateException e) {
+			
             log.error("Database Exception..", e);
+            
             if (transaction != null) {
+            	
                 transaction.rollback();
+                
             }
             throw new ApplicationException("Exception in User Add "
                     + e.getMessage());
@@ -217,8 +223,11 @@ public class CourseModelHibImpl implements CourseModelInt {
     	List list = null;
     	try {
 			session = HibDataSource.getSession();
+			
 			Criteria criteria = session.createCriteria(CourseDTO.class);
+			
 			if(dto.getId() > 0){
+				
 			criteria.add(Restrictions.eq("id", dto.getId()));
 			}
 			if(dto.getName() != null && dto.getName().length() > 0){
@@ -231,8 +240,11 @@ public class CourseModelHibImpl implements CourseModelInt {
 			criteria.add(Restrictions.like("description", dto.getDescription()+"%"));
 			}
 			if(pageSize > 0){
+				
 			criteria.setFirstResult(((pageNo-1)*pageSize));
+			
 			criteria.setMaxResults(pageSize);
+			
 			}
 		    list = criteria.list();
 		    }catch (HibernateException e) {
@@ -263,23 +275,36 @@ public class CourseModelHibImpl implements CourseModelInt {
 	Session session = null;
 	List list = null;
     try {
+    	
     	session = HibDataSource.getSession();
+    	
 		Criteria criteria = session.createCriteria(CourseDTO.class);
-		  if (pageSize > 0) {
+		
+		if (pageSize > 0) {
+			
               pageNo = ((pageNo - 1) * pageSize);
+              
               criteria.setFirstResult(pageNo);
+              
               criteria.setMaxResults(pageSize);
+              
           }
 		  list=criteria.list();
 	} catch (HibernateException e) {
+		
         log.error("Database Exception..", e);
         throw new ApplicationException(
                 "Exception : Exception in  Users list");
     } finally {
+    	
         session.close();
+        
     }
+    
     log.debug("Model list End");
+    
     return list;
+
 	}	
 	
 }

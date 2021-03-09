@@ -3,7 +3,6 @@ import in.co.rays.dto.UserDTO;
 import in.co.rays.exception.ApplicationException;
 import in.co.rays.exception.DuplicateRecordException;
 import in.co.rays.exception.RecordNotFoundException;
-
 import java.util.List;
 
 /**
@@ -12,6 +11,7 @@ import java.util.List;
  * @author uday
  *
  */
+
 public interface UserModelInt {
 
     /**
@@ -165,6 +165,7 @@ public interface UserModelInt {
      * @param dto
      * @throws ApplicationException
      */
+    
     public UserDTO updateAccess(UserDTO dto) throws ApplicationException,
             DuplicateRecordException;
 

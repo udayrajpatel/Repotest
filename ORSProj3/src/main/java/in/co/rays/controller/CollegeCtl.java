@@ -21,10 +21,12 @@ import org.apache.log4j.Logger;
  * College functionality Controller. Performs operation for add, update, delete
  * and get College
  * 
- * @author Proxy
- * @version 1.0 Copyright (c) Proxy
+ * @author uday
+ *
  */
+
 @WebServlet(name = "CollegeCtl", urlPatterns = { "/ctl/CollegeCtl" })
+
 public class CollegeCtl extends BaseCtl {
 
 	private static final long serialVersionUID = 1L;
@@ -39,33 +41,49 @@ public class CollegeCtl extends BaseCtl {
 		boolean pass = true;
 
 		if (DataValidator.isNull(request.getParameter("name"))) {
+
 			request.setAttribute("name", PropertyReader.getValue("error.require", "Name"));
 			pass = false;
+
 		} else if (!DataValidator.isName(request.getParameter("name"))) {
+
 			request.setAttribute("name", "Invalid Name");
 			pass = false;
+
 		}
 		if (DataValidator.isNull(request.getParameter("address"))) {
+
 			request.setAttribute("address", PropertyReader.getValue("error.require", "Address"));
 			pass = false;
+
 		}
 		if (DataValidator.isNull(request.getParameter("state"))) {
+
 			request.setAttribute("state", PropertyReader.getValue("error.require", "State"));
 			pass = false;
+
 		}
 		if (DataValidator.isNull(request.getParameter("city"))) {
+
 			request.setAttribute("city", PropertyReader.getValue("error.require", "City"));
 			pass = false;
+
 		}
 		if (DataValidator.isNull(request.getParameter("phoneNo"))) {
+
 			request.setAttribute("phoneNo", PropertyReader.getValue("error.require", "Phone No"));
 			pass = false;
+
 		} else if (!DataValidator.isPhoneLength(request.getParameter("phoneNo"))) {
+
 			request.setAttribute("phoneNo", "Phone No must have 10 digits");
 			pass = false;
+
 		} else if (!DataValidator.isPhoneNo(request.getParameter("phoneNo"))) {
+
 			request.setAttribute("phoneNo", "Invalid Phone No");
 			pass = false;
+
 		}
 
 		log.debug("CollegeCtl Method validate Ended");
@@ -83,25 +101,34 @@ public class CollegeCtl extends BaseCtl {
 		dto.setId(DataUtility.getLong(request.getParameter("id")));
 
 		dto.setName(DataUtility.getString(request.getParameter("name")));
+		System.out.println(request.getParameter("name"));
 
 		dto.setAddress(DataUtility.getString(request.getParameter("address")));
+		System.out.println(request.getParameter("address"));
 
 		dto.setState(DataUtility.getString(request.getParameter("state")));
+		System.out.println(request.getParameter("state"));
 
 		dto.setCity(DataUtility.getString(request.getParameter("city")));
+		System.out.println(request.getParameter("city"));
 
 		dto.setPhoneNo(DataUtility.getString(request.getParameter("phoneNo")));
+		System.out.println(request.getParameter("phoneNo"));
 
 		populateDTO(dto, request);
 
 		log.debug("CollegeCtl Method populatedto Ended");
 
 		return dto;
+
 	}
 
 	/**
+	 * 
 	 * Contains display logic
+	 * 
 	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -109,7 +136,7 @@ public class CollegeCtl extends BaseCtl {
 		String op = DataUtility.getString(request.getParameter("operation"));
 
 		// get model
-		
+
 		CollegeModelInt model = ModelFactory.getInstance().getCollegeModel();
 
 		long id = DataUtility.getLong(request.getParameter("id"));
@@ -140,27 +167,32 @@ public class CollegeCtl extends BaseCtl {
 		String op = DataUtility.getString(request.getParameter("operation"));
 
 		// get model
-		
+
 		CollegeModelInt model = ModelFactory.getInstance().getCollegeModel();
 
 		long id = DataUtility.getLong(request.getParameter("id"));
 
 		if (OP_SAVE.equalsIgnoreCase(op)) {
 
+			System.out.println("hello i am in dopost of college ctl");
 			CollegeDTO dto = (CollegeDTO) populateDTO(request);
 
 			try {
+
 				long pk = model.add(dto);
 				dto.setId(pk);
-
-				// ServletUtility.setDto(dto, request);
+				ServletUtility.setDto(dto, request);
 				ServletUtility.setSuccessMessage("Data is successfully saved", request);
 
-			} catch (ApplicationException e) {
+			}
+
+			catch (ApplicationException e) {
+
 				e.printStackTrace();
 				log.error(e);
 				ServletUtility.handleException(e, request, response);
 				return;
+
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setDto(dto, request);
 				ServletUtility.setErrorMessage("College Name already exists", request);
@@ -193,8 +225,7 @@ public class CollegeCtl extends BaseCtl {
 			try {
 				model.delete(dto);
 				ServletUtility.redirect(ORSView.COLLEGE_LIST_CTL, request, response);
-				// ServletUtility.setSuccessMessage("Data is successfully
-				// deleted", request);
+				ServletUtility.setSuccessMessage("Data is successfully deleted", request);
 				return;
 
 			} catch (ApplicationException e) {
@@ -209,8 +240,10 @@ public class CollegeCtl extends BaseCtl {
 			return;
 
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
+
 			ServletUtility.redirect(ORSView.COLLEGE_CTL, request, response);
 			return;
+
 		}
 		ServletUtility.forward(getView(), request, response);
 

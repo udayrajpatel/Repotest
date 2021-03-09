@@ -96,25 +96,36 @@ public class ForgetPasswordCtl extends BaseCtl {
 		if (OP_GO.equalsIgnoreCase(op)) {
 
 			try {
+				
 				model.forgetPassword(dto.getLogin());
 				ServletUtility.setSuccessMessage("Password has been sent to your email id.", request);
+				
+				
 			} catch (RecordNotFoundException e) {
+				
 				ServletUtility.setErrorMessage(e.getMessage(), request);
 				log.error(e);
+				
+				
 			} catch (ApplicationException e) {
+				
 				log.error(e);
-				ServletUtility.handleException(e, request, response);
+				ServletUtility.handleException(e,request, response);
 				return;
+				
 			}
 			ServletUtility.forward(getView(), request, response);
 		}
 
 		log.debug("ForgetPasswordCtl Method doPost Ended");
+		
 	}
 
 	@Override
 	protected String getView() {
+		
 		return ORSView.FORGET_PASSWORD_VIEW;
+		
 	}
 
 }

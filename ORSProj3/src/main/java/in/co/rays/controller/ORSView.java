@@ -1,10 +1,12 @@
 package in.co.rays.controller;
-/**
- * Contains ORS View and Controller URI.
- *
- * @author 
- */
 
+/**
+ * 
+ * Contains ORS View and Controller URI.
+ * 
+ * @author uday
+ *
+ */
 public interface ORSView {
 
     /** The app context. */
@@ -70,12 +72,10 @@ public interface ORSView {
     public String MY_PROFILE_VIEW = PAGE_FOLDER + "/MyProfileView.jsp";
     
     /** The forget password view. */
-    public String FORGET_PASSWORD_VIEW = PAGE_FOLDER
-            + "/ForgetPasswordView.jsp";
+    public String FORGET_PASSWORD_VIEW = PAGE_FOLDER   + "/ForgetPasswordView.jsp";
     
     /** The marksheet merit list view. */
-    public String MARKSHEET_MERIT_LIST_VIEW = PAGE_FOLDER
-            + "/MarksheetMeritListView.jsp";
+    public String MARKSHEET_MERIT_LIST_VIEW = PAGE_FOLDER   + "/MarksheetMeritListView.jsp";
     
     /** The faculty view. */
     public String FACULTY_VIEW = PAGE_FOLDER + "/FacultyView.jsp";
@@ -99,7 +99,7 @@ public interface ORSView {
     public String TIMETABLE_VIEW = PAGE_FOLDER + "/TimetableView.jsp";
     
     /** The timetable list view. */
-    public String TIMETABLE_LIST_VIEW = PAGE_FOLDER + "/TimeTableListView.jsp";
+    public String TIMETABLE_LIST_VIEW = PAGE_FOLDER + "/TimetableListView.jsp";
 
     /** The error ctl. */
     public String ERROR_CTL = APP_CONTEXT + "/ErrorCtl";

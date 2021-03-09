@@ -7,7 +7,6 @@ import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 import in.co.rays.dto.DropdownListDTO;
 
-
 /**
  * HTML Utility class to produce HTML contents like Dropdown List.
  * 
@@ -30,7 +29,7 @@ public class HTMLUtility {
 	public static String getList(String name, String selectedVal, HashMap<String, String> map) {
 
 		StringBuffer sb = new StringBuffer(
-				"<select style=\"width: 173px;text-align-last:left;\"; class='form-control my-white-text' name='" + name + "'>");
+				"<select style=\"width: 200px;text-align-last:left;\"; class='form-control my-white-text' name='" + name + "'>");
 
 		sb.append("<option selected value=''>Select "+name+"</option>");
 
@@ -60,12 +59,11 @@ public class HTMLUtility {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static String getList(String name, String selectedVal, List list) {
 
-
-
 		List<DropdownListDTO> dd = (List<DropdownListDTO>) list;
 
-		StringBuffer sb = new StringBuffer("<select style=\"width: 173px;text-align-last:left;\"; "
+		StringBuffer sb = new StringBuffer("<select style=\"width: 200px;text-align-last:left;\"; "
 				+ "class='form-control my-white-text' name='" + name + "'>");
+		
 		if(selectedVal == null){
 		sb.append("<option selected value=''>Select "+name.replace("Id", "Name")+"</option>");
 		}else{
@@ -91,7 +89,7 @@ public class HTMLUtility {
 	public static String getList(String name, String selectedVal, HashMap<String, String> map, boolean select) {
 
 		StringBuffer sb = new StringBuffer(
-				"<select style=\"width: 173px;text-align-last: center;\"; class='form-control text-light' name='" + name + "'>");
+				"<select style=\"width: 200px;text-align-last: center;\"; class='form-control text-light' name='" + name + "'>");
 
 		Set<String> keys = map.keySet();
 		String val = null;
@@ -172,7 +170,9 @@ public class HTMLUtility {
 		String button = "";
 
 		if (access) {
+			
 			button = "<input type='submit' name='operation'    value='" + label + "' >";
+			
 		}
 		return button;
 	}

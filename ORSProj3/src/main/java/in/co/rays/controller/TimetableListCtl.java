@@ -44,6 +44,7 @@ public class TimetableListCtl extends BaseCtl {
 		CourseModelInt courseModel = ModelFactory.getInstance().getCourseModel();
 
 		try {
+			
 			List subjectList = subjectModel.list();
 			request.setAttribute("subjectList", subjectList);
 

@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 
 /**
  * College List functionality Controller. Performs operation for list, search
+ * 
  * and delete operations of College
  * 
  * @author uday
@@ -98,6 +99,7 @@ public class CollegeListCtl extends BaseCtl {
 		ServletUtility.setPageNo(pageNo, request);
 		ServletUtility.setPageSize(pageSize, request);
 		ServletUtility.forward(getView(), request, response);
+		
 	}
 
 	/**

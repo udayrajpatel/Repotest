@@ -2,6 +2,7 @@ package in.co.rays.controller;
 import in.co.rays.dto.BaseDTO;
 import in.co.rays.dto.FacultyDTO;
 import in.co.rays.exception.ApplicationException;
+import in.co.rays.model.CourseModelInt;
 import in.co.rays.model.FacultyModelInt;
 import in.co.rays.model.ModelFactory;
 import in.co.rays.model.SubjectModelInt;
@@ -19,12 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 /**
+ * 
  * Faculty List functionality Controller. Performs operation for list, search
  * and delete operations of Faculty
  * 
- * @author uday
+ *  @author uday
  *
  */
+
 @WebServlet(name = "FacultyListCtl", urlPatterns = { "/ctl/FacultyListCtl" })
 public class FacultyListCtl extends BaseCtl {
 
@@ -38,14 +41,30 @@ public class FacultyListCtl extends BaseCtl {
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected void preload(HttpServletRequest request) {
+		
 		SubjectModelInt subjectModel = ModelFactory.getInstance().getSubjectModel();
-
+		
+		CourseModelInt courseModel = ModelFactory.getInstance().getCourseModel();
+		
+		
 		try {
+			
 			List subjectList = subjectModel.list();
+		
+			System.out.println(subjectList);
+			
 			request.setAttribute("subjectList", subjectList);
+			
+			List courseList = courseModel.list();
+			
+			System.out.println(courseList);
+			
+			request.setAttribute("courseList", courseList);
+			
 
 		} catch (ApplicationException e) {
 			log.error(e);
+			
 		}
 
 	}
@@ -59,16 +78,18 @@ public class FacultyListCtl extends BaseCtl {
 		dto.setLastName(DataUtility.getString(request.getParameter("lastName")));
 		dto.setEmail(DataUtility.getString(request.getParameter("email")));
 		dto.setSubjectId(DataUtility.getLong(request.getParameter("subject")));
-
+		dto.setCourseId(DataUtility.getLong(request.getParameter("courseId")));
+		
 		return dto;
+		
 	}
 
 	/**
 	 * Contains Display logics
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+	
 		log.debug("FacultyListCtl doGet Start");
 		List list = null;
 		List next = null;
@@ -88,8 +109,11 @@ public class FacultyListCtl extends BaseCtl {
 			next = model.search(dto, pageNo + 1, pageSize);
 			// ServletUtility.setList(list, request);
 			if (list == null || list.size() == 0) {
+				
 				ServletUtility.setErrorMessage("No record found ", request);
+				
 			}
+			
 			request.setAttribute("nextListSize", next.size());
 			ServletUtility.setList(list, request);
 			ServletUtility.setDto(dto, request);
@@ -115,6 +139,7 @@ public class FacultyListCtl extends BaseCtl {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		log.debug("FacultyListCtl doPost Start");
+		
 		List list = null;
 		List next = null;
 

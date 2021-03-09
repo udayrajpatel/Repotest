@@ -1,4 +1,5 @@
 package in.co.rays.controller;
+
 import in.co.rays.dto.BaseDTO;
 import in.co.rays.dto.UserDTO;
 import in.co.rays.exception.ApplicationException;
@@ -27,12 +28,12 @@ import org.apache.log4j.Logger;
  */
 
 @WebServlet(name = "MyProfileCtl", urlPatterns = { "/ctl/MyProfileCtl" })
-
 public class MyProfileCtl extends BaseCtl {
-
+	
 	/**
 	 * Default serial version ID
 	 */
+
 	private static final long serialVersionUID = 1L;
 
 	public static final String OP_CHANGE_MY_PASSWORD = "Change Password";

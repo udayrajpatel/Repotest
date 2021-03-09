@@ -2,9 +2,6 @@ package in.co.rays.model;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-
-
-
 public class ModelFactory {
 
 	private static ResourceBundle bunddle = ResourceBundle.getBundle("in.co.rays.bundle.system");
@@ -58,42 +55,51 @@ public class ModelFactory {
 	 * 
 	 * @return
 	 */
-	 public StudentModelInt getStudentModel() {
-	        StudentModelInt studentModel = (StudentModelInt) modelCache
-	                .get("StudentModel");
-	        if (studentModel == null) {
-	            if ("Hibernate".equals(DATABASE)) {
-	                studentModel = new StudentModelHibImpl();
-	            }
-	            if ("JDBC".equals(DATABASE)) {
-	                studentModel = new StudentModelJDBCImpl();
-	            }
-	            modelCache.put("studentModel", studentModel);
-	        }
 
-	        return studentModel;
-	    }
+	public StudentModelInt getStudentModel() {
+
+		StudentModelInt studentModel = (StudentModelInt) modelCache.get("StudentModel");
+
+		if (studentModel == null) {
+
+			if ("Hibernate".equals(DATABASE)) {
+
+				studentModel = new StudentModelHibImpl();
+
+			}
+			if ("JDBC".equals(DATABASE)) {
+
+				studentModel = new StudentModelJDBCImpl();
+
+			}
+
+			modelCache.put("studentModel", studentModel);
+
+		}
+
+		return studentModel;
+	}
+
 	/**
 	 * Get instance of Role Model
 	 *
 	 * @return Student
 	 */
-	 public RoleModelInt getRoleModel() {
-	        RoleModelInt roleModel = (RoleModelInt) modelCache
-	                .get("roleModel");
-	        if (roleModel == null) {
-	            if ("Hibernate".equals(DATABASE)) {
-	                roleModel = new RoleModelHibImpl();
-	            }
-	            if ("JDBC".equals(DATABASE)) {
-	                roleModel = new RoleModelJDBCImpl();
-	            }
-	            modelCache.put("roleModel", roleModel);
-	        }
+	public RoleModelInt getRoleModel() {
+		RoleModelInt roleModel = (RoleModelInt) modelCache.get("roleModel");
+		if (roleModel == null) {
+			if ("Hibernate".equals(DATABASE)) {
+				roleModel = new RoleModelHibImpl();
+			}
+			if ("JDBC".equals(DATABASE)) {
+				roleModel = new RoleModelJDBCImpl();
+			}
+			modelCache.put("roleModel", roleModel);
+		}
 
-	        return roleModel;
+		return roleModel;
 
-	    }
+	}
 
 	/**
 	 * Get instance of Marksheet Model
@@ -101,26 +107,32 @@ public class ModelFactory {
 	 * @return
 	 * 
 	 */
+
 	public MarksheetModelInt getMarksheetModel() {
 
 		MarksheetModelInt marksheetModel = (MarksheetModelInt) modelCache.get("marksheetModel");
+
 		if (marksheetModel == null) {
 
 			if ("Hibernate".equals(DATABASE)) {
+
 				marksheetModel = new MarksheetModelHibImpl();
+
 			}
 			if ("JDBC".equals(DATABASE)) {
+
 				marksheetModel = new MarksheetModelJDBCImpl();
+				
 			}
+
 			modelCache.put("marksheetModel", marksheetModel);
+			
 		}
-
 		return marksheetModel;
-
 	}
 
 	/**
-	 * Get instance of Marksheet Model
+	 * Get instance of college Model
 	 * 
 	 * @return
 	 * 
@@ -138,8 +150,9 @@ public class ModelFactory {
 			if ("JDBC".equals(DATABASE)) {
 
 				collegeModel = new CollegeModelJDBCImpl();
+				
 			}
-			modelCache.put("marksheetModel", collegeModel);
+			modelCache.put("collegeModel", collegeModel);
 		}
 
 		return collegeModel;
@@ -148,7 +161,7 @@ public class ModelFactory {
 
 	public CourseModelInt getCourseModel() {
 
-		CourseModelInt courseModel = (CourseModelInt) modelCache.get("collegeModel");
+		CourseModelInt courseModel = (CourseModelInt) modelCache.get("courseModel");
 
 		if (courseModel == null) {
 
@@ -159,8 +172,9 @@ public class ModelFactory {
 			if ("JDBC".equals(DATABASE)) {
 
 				courseModel = new CourseModelJDBCImpl();
+				
 			}
-			modelCache.put("marksheetModel", courseModel);
+			modelCache.put("courseModel", courseModel);
 		}
 
 		return courseModel;
@@ -169,40 +183,41 @@ public class ModelFactory {
 
 	public FacultyModelInt getFacultyModel() {
 
-		FacultyModelInt FacultyModel = (FacultyModelInt) modelCache.get("collegeModel");
+		FacultyModelInt facultyModel = (FacultyModelInt) modelCache.get("facultyModel");
 
-		if (FacultyModel == null) {
+		if (facultyModel == null) {
 
 			if ("Hibernate".equals(DATABASE)) {
 
-				FacultyModel = new FacultyModelHibImpl();
+				facultyModel = new FacultyModelHibImpl();
+
 			}
 			if ("JDBC".equals(DATABASE)) {
 
-				FacultyModel = new FacultyModelJDBCImpl();
+				facultyModel = new FacultyModelJDBCImpl();
+
 			}
-			modelCache.put("marksheetModel", FacultyModel);
 		}
-
-		return FacultyModel;
-
+		return facultyModel;
 	}
 
 	public SubjectModelInt getSubjectModel() {
 
-		SubjectModelInt subjectModel = (SubjectModelInt) modelCache.get("collegeModel");
+		SubjectModelInt subjectModel = (SubjectModelInt) modelCache.get("subjectModel");
 
 		if (subjectModel == null) {
 
 			if ("Hibernate".equals(DATABASE)) {
 
 				subjectModel = new SubjectModelHibImpl();
+
 			}
 			if ("JDBC".equals(DATABASE)) {
 
 				subjectModel = new SubjectModelJDBCImpl();
 			}
-			modelCache.put("marksheetModel", subjectModel);
+			modelCache.put("subjectModel", subjectModel);
+
 		}
 
 		return subjectModel;
@@ -211,7 +226,7 @@ public class ModelFactory {
 
 	public TimetableModelInt getTimetableModel() {
 
-		TimetableModelInt timetableModel = (TimetableModelInt) modelCache.get("collegeModel");
+		TimetableModelInt timetableModel = (TimetableModelInt) modelCache.get("timetableModel");
 
 		if (timetableModel == null) {
 
@@ -224,7 +239,7 @@ public class ModelFactory {
 
 				timetableModel = new TimetableModelJDBCImpl();
 			}
-			modelCache.put("marksheetModel", timetableModel);
+			modelCache.put("timetableModel", timetableModel);
 
 		}
 

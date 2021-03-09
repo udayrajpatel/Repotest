@@ -17,8 +17,8 @@ import in.co.rays.exception.DatabaseException;
 import in.co.rays.exception.DuplicateRecordException;
 import in.co.rays.util.HibDataSource;
 
-
 /**
+ * 
  * Hibernate implementation of Time table
  * 
  * @author uday
@@ -26,9 +26,9 @@ import in.co.rays.util.HibDataSource;
  */
 
 public class TimetableModelHibImpl implements TimetableModelInt {
- 
+
 	Logger log = Logger.getLogger(TimetableModelHibImpl.class);
-	
+
 	/**
 	 * Add a Timetable
 	 * 
@@ -37,41 +37,45 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 	 * @throws ApplicationException
 	 * @throws DuplicateRecordException
 	 */
-	public long add(TimetableDTO dto) throws ApplicationException{
+
+	public long add(TimetableDTO dto) throws ApplicationException {
 		log.debug("model add start");
 		long pk = 0;
-		//get course name
+		// get course name
 		CourseModelHibImpl cmodel = new CourseModelHibImpl();
-		CourseDTO cdto = cmodel.findByPK(dto.getId());
+
+		CourseDTO cdto = cmodel.findByPK(dto.getCourseId());
+
 		dto.setCourseName(cdto.getName());
-		
-		//get subject name
+
+		// get subject name
 		SubjectModelHibImpl smodel = new SubjectModelHibImpl();
-		SubjectDTO sdto = smodel.findByPK(dto.getId());
+
+		SubjectDTO sdto = smodel.findByPK(dto.getSubjectId());
+
 		dto.setSubjectName(sdto.getName());
-		
+
 		Session session = null;
 		Transaction transaction = null;
 		try {
 			session = HibDataSource.getSession();
 			transaction = session.beginTransaction();
 			session.save(dto);
-		    pk = dto.getId();
+			pk = dto.getId();
 			transaction.commit();
+
 		} catch (HibernateException e) {
-            log.error("Database Exception..", e);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new ApplicationException("Exception in timetable Add "
-                    + e.getMessage());
-        } finally {
-            session.close();
-        }
-        log.debug("Model add End");
-        return dto.getId();
+			log.error("Database Exception..", e);
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new ApplicationException("Exception in timetable Add " + e.getMessage());
+		} finally {
+			session.close();
+		}
+		log.debug("Model add End");
+		return dto.getId();
 	}
-	
 
 	/**
 	 * Delete a Timetable
@@ -79,82 +83,106 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 	 * @param dto
 	 * @throws ApplicationException
 	 */
-	public void delete(TimetableDTO dto) throws ApplicationException{
+	public void delete(TimetableDTO dto) throws ApplicationException {
 		log.debug("Model delete Started");
-        Session session = null;
-        Transaction transaction = null;
-        try {
-            session = HibDataSource.getSession();
-            transaction = session.beginTransaction();
-            session.delete(dto);
-            transaction.commit();
-        } catch (HibernateException e) {
-            log.error("Database Exception..", e);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new ApplicationException("Exception in timetable Delete"
-                    + e.getMessage());
-        } finally {
-            session.close();
-        }
-        log.debug("Model delete End");
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = HibDataSource.getSession();
+			transaction = session.beginTransaction();
+			session.delete(dto);
+			transaction.commit();
+		} catch (HibernateException e) {
+			log.error("Database Exception..", e);
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new ApplicationException("Exception in timetable Delete" + e.getMessage());
+		} finally {
+			session.close();
+		}
+		log.debug("Model delete End");
 	}
-	
-	
+
 	/**
 	 * @param examTime
 	 * @return
 	 * @throws ApplicationException
 	 */
-	
-	public TimetableDTO checkByExamTime(Long courseId, Long subjectId, String semester, Date examDate, String examTime){
+
+	public TimetableDTO checkByExamTime(Long courseId, Long subjectId, String semester, Date examDate,
+			String examTime) {
 		log.debug("model checkbyexamtime start");
 		Session session = null;
 		TimetableDTO dto = null;
+
+		session = HibDataSource.getSession();
+		/*
+		 * Query q = session.createQuery(
+		 * "from TimetableDTO where courseId =? and subjectId =? and semester =? and examDate =? and examTime =?"
+		 * );
+		 * 
+		 * q.setLong(0, courseId); q.setLong(1, subjectId); q.setString(2, semester);
+		 * q.setDate(3, examDate); q.setString(4, examTime);
+		 */
 		
-			session = HibDataSource.getSession();
-			Query q = session.createQuery("from TimetableDTO where courseId=? and subjectId=? and semester=? and examDate=? and examTime=?");
-			q.setLong(0, courseId);
-			q.setLong(1, subjectId);
-			q.setString(2, semester);
-			q.setDate(3, examDate);
-			q.setString(4, examTime);
-			 List list = q.list();
-		        if (list.size() > 0) {
-		            dto = (TimetableDTO) list.get(0);
-		        } else {
-		            dto = null;
-		     }
-		        log.debug("model exam time end");
-		        return dto;
+		Criteria criteria = session.createCriteria(TimetableDTO.class);
+		criteria.add(Restrictions.eq("courseId", courseId));
+		criteria.add(Restrictions.eq("subjectId", subjectId));
+		criteria.add(Restrictions.eq("examDate", examDate));
+		criteria.add(Restrictions.eq("examTime", examTime));
+		
+		List list = criteria.list();
+
+		if (list.size() > 0) {
+
+			dto = (TimetableDTO) list.get(0);
+
+		} else {
+
+			dto = null;
+
+		}
+		log.debug("model exam time end");
+		return dto;
 	}
-	
-	/**checkByCourseName
+
+	/**
+	 * checkByCourseName
+	 * 
 	 * @param courseId
 	 * @param examDate
 	 * @return
 	 * @throws ApplicationException
 	 */
-	public TimetableDTO checkByCourseName(Long courseId, Date examDate){
+	public TimetableDTO checkByCourseName(Long courseId, Date examDate) {
 		log.debug(" model checkByCourseName start");
 		Session session = null;
 		TimetableDTO dto = null;
-		
+
 		session = HibDataSource.getSession();
-		Query q = session.createQuery("from TimetableDto where courseId=? and examDate=?");
-		q.setLong(0, courseId);
-		q.setDate(1, examDate);
-		List list = q.list();
-		 if (list.size() > 0) {
-	            dto = (TimetableDTO) list.get(0);
-	        } else {
-	            dto = null;
-	     }
-	        log.debug("model exam time end");
-	        return dto;
+		/*
+		 * Query q = session.
+		 * createQuery("from TimetableDTO where courseId >= :courseId and examDate <=: examDate"
+		 * ); q.setLong("courseId", courseId); q.setDate("examDate", examDate);
+		 */
+		Criteria criteria = session.createCriteria(TimetableDTO.class);
+		criteria.add(Restrictions.eq("courseId", courseId));
+		// criteria.add(Restrictions.eq("subjectId", subjectId));
+		criteria.add(Restrictions.eq("examDate", examDate));
+		List list = criteria.list();
+		if (list.size() > 0) {
+			dto = (TimetableDTO) list.get(0);
+		} else {
+			
+			dto = null;
+			
+		}
+		
+		log.debug("model exam time end");
+		return dto;
 	}
-	
+
 	/**
 	 * @param courseId
 	 * @param subjectId
@@ -162,25 +190,40 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 	 * @return
 	 * @throws ApplicationException
 	 */
-	public TimetableDTO checkBySubjectName(Long courseId, Long subjectId, Date examDate){
-	log.debug("model check by subject name start");
-	Session session = null;
-	TimetableDTO dto = null;
-	session = HibDataSource.getSession();
-	Query q = session.createQuery("from TimetableDTO where CourseId=? and sujbjectId=? and examDate=?");
-	q.setLong(0, courseId);
-	q.setLong(1, subjectId);
-	q.setDate(2, examDate);
-	List list = q.list();
-	 if (list.size() > 0) {
-           dto = (TimetableDTO) list.get(0);
-       } else {
-           dto = null;
-    }
-       log.debug("model checksubject end");
-       return dto;
- }
+	public TimetableDTO checkBySubjectName(Long courseId, Long subjectId, Date examDate) {
+		log.debug("model check by subject name start");
+		Session session = null;
+		TimetableDTO dto = null;
+		session = HibDataSource.getSession();
 	
+		/*
+		 * Query q = session.
+		 * createQuery("from TimetableDTO where CourseId=? and sujbjectId=? and examDate=?"
+		 * ); q.setLong(0, courseId); q.setLong(1, subjectId); q.setDate(2, examDate);
+		 */
+
+		Criteria criteria = session.createCriteria(TimetableDTO.class);
+		criteria.add(Restrictions.eq("courseId", courseId));
+		criteria.add(Restrictions.eq("subjectId", subjectId));
+		criteria.add(Restrictions.eq("examDate", examDate));
+
+		List list = criteria.list();
+		
+		if (list.size() > 0) {
+			
+			dto = (TimetableDTO) list.get(0);
+			
+		} else {
+			
+			dto = null;
+		}
+		
+		log.debug("model checksubject end");
+		
+		return dto;
+		
+	}
+
 	/**
 	 * @param courseId
 	 * @param subjectId
@@ -189,225 +232,226 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 	 * @return
 	 * @throws ApplicationException
 	 */
-	
-	public TimetableDTO checkBySemester(Long courseId, Long subjectId, String semester, Date examDate){
+
+	public TimetableDTO checkBySemester(Long courseId, Long subjectId, String semester, Date examDate) {
 		log.debug("model checkBySemester start");
 		Session session = null;
 		TimetableDTO dto = null;
 		session = HibDataSource.getSession();
-		Query q = session.createQuery("from TimetableDTO where courseId=? and subjectId=? and semester=? and examDate=?");
-		q.setLong(0, courseId);
-		q.setLong(1, subjectId);
-		q.setString(2, semester);
-		q.setDate(3, examDate);
-		List list = q.list();
-		 if (list.size() > 0) {
-	           dto = (TimetableDTO) list.get(0);
-	       } else {
-	           dto = null;
-	    }
-	       log.debug("model checksubject end");
-	       return dto;
+		/*
+		 * Query q = session
+		 * .createQuery("from TimetableDTO where courseId=? and subjectId=? and semester=? and examDate=?"
+		 * ); q.setLong(0, courseId); q.setLong(1, subjectId); q.setString(2, semester);
+		 * q.setDate(3, examDate); List list = q.list();
+		 */
+		
+		Criteria criteria = session.createCriteria(TimetableDTO.class);
+		criteria.add(Restrictions.eq("courseId", courseId));
+		criteria.add(Restrictions.eq("subjectId", subjectId));
+		criteria.add(Restrictions.eq("semester", semester));
+		criteria.add(Restrictions.eq("examDate", examDate));
+
+		List list = criteria.list();
+		
+		if (list.size() > 0) {
+			dto = (TimetableDTO) list.get(0);
+		} else {
+			dto = null;
+		}
+		log.debug("model checksubject end");
+		return dto;
 	}
-	
-	 /**
-     * Find timetable by PK
-     * 
-     * @param pk
-     *            : get parameter
-     * @return dto
-     * @throws DatabaseException
-     */
-	
+
+	/**
+	 * Find timetable by PK
+	 * 
+	 * @param pk : get parameter
+	 * @return dto
+	 * @throws DatabaseException
+	 */
+
 	public TimetableDTO findByPK(long pk) throws ApplicationException {
-	        log.debug("Model findByPK Started");
-	        Session session = null;
-	        TimetableDTO dto = null;
-	        try {
-	            session = HibDataSource.getSession();
-	            dto =  (TimetableDTO) session.get(TimetableDTO.class, pk);
-	        } catch (HibernateException e) {
-	            log.error("Database Exception..", e);
-	            throw new ApplicationException(
-	                    "Exception : Exception in getting User by pk");
-	        } finally {
-	            session.close();
-	        }
+		log.debug("Model findByPK Started");
+		Session session = null;
+		TimetableDTO dto = null;
+		try {
+			session = HibDataSource.getSession();
+			dto = (TimetableDTO) session.get(TimetableDTO.class, pk);
+		} catch (HibernateException e) {
+			log.error("Database Exception..", e);
+			throw new ApplicationException("Exception : Exception in getting User by pk");
+		} finally {
+			session.close();
+		}
 
-	        log.debug("Model findByPK End");
-	        return dto;
-	    }
+		log.debug("Model findByPK End");
+		return dto;
+	}
 
-	 
-		/**
-		 * Update a Timetable
-		 * 
-		 * @param dto
-		 * @throws ApplicationException
-		 * @throws DuplicateRecordException
-		 */
-	 
-	public void update(TimetableDTO dto) throws ApplicationException{
-		//get course name
-			CourseModelHibImpl cmodel = new CourseModelHibImpl();
-			CourseDTO cdto = cmodel.findByPK(dto.getId());
-			dto.setCourseName(cdto.getName());
-			
-			//get subject name
-			SubjectModelHibImpl smodel = new SubjectModelHibImpl();
-			SubjectDTO sdto = smodel.findByPK(dto.getId());
-			dto.setSubjectName(sdto.getName());
-			
-			Session session = null;
-			Transaction transaction = null;	 
-			try {
-				session = HibDataSource.getSession();
-				transaction = session.beginTransaction();
-				session.update(dto);
-				transaction.commit();
-			} catch (HibernateException e) {
-	            log.error("Database Exception..", e);
-	            if (transaction != null) {
-	                transaction.rollback();
-	                throw new ApplicationException("Exception in User Update"
-	                        + e.getMessage());
-	            }
-	        } finally {
-	            session.close();
-	        }
-	        log.debug("Model update End");
-	 }
-	
+	/**
+	 * Update a Timetable
+	 * 
+	 * @param dto
+	 * @throws ApplicationException
+	 * @throws DuplicateRecordException
+	 */
 
-		/**
-		 * Search Timetable
-		 * 
-		 * @param dto
-		 *            : Search Parameters
-		 * @throws ApplicationException
-		 */
+	public void update(TimetableDTO dto) throws ApplicationException {
+		// get course name
+		CourseModelHibImpl cmodel = new CourseModelHibImpl();
+		CourseDTO cdto = cmodel.findByPK(dto.getId());
+		dto.setCourseName(cdto.getName());
 
+		// get subject name
+		SubjectModelHibImpl smodel = new SubjectModelHibImpl();
+		SubjectDTO sdto = smodel.findByPK(dto.getId());
+		dto.setSubjectName(sdto.getName());
+
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = HibDataSource.getSession();
+			transaction = session.beginTransaction();
+			session.update(dto);
+			transaction.commit();
+		} catch (HibernateException e) {
+			log.error("Database Exception..", e);
+			if (transaction != null) {
+				transaction.rollback();
+				throw new ApplicationException("Exception in User Update" + e.getMessage());
+			}
+		} finally {
+			session.close();
+		}
+		log.debug("Model update End");
+	}
+
+	/**
+	 * Search Timetable
+	 * 
+	 * @param dto : Search Parameters
+	 * @throws ApplicationException
+	 */
 
 	public List<TimetableDTO> search(TimetableDTO dto) throws ApplicationException {
 		return search(dto, 0, 0);
 	}
+
+	/**
+	 * Search Timetable with pagination
+	 * 
+	 * @return list : List of Timetable
+	 * @param dto      : Search Parameters
+	 * @param pageNo   : Current Page No.se
+	 * @param pageSize : Size of Page
+	 * 
+	 * @throws ApplicationException
+	 */
+
+	public List<TimetableDTO> search(TimetableDTO dto, int pageNo, int pageSize) throws ApplicationException {
 		
-		/**
-		 * Search Timetable with pagination
-		 * 
-		 * @return list : List of Timetable
-		 * @param dto
-		 *            : Search Parameters
-		 * @param pageNo
-		 *            : Current Page No.se
-		 * @param pageSize
-		 *            : Size of Page
-		 * 
-		 * @throws ApplicationException
-		 */
-         
-	public List<TimetableDTO> search(TimetableDTO dto, int pageNo, int pageSize) throws ApplicationException{
-			log.debug("model search method start");
-			Session session = null;
-			List list = null;
+		log.debug("model search method start");
+		Session session = null;
+		List list = null;
+
+		try {
 			
-			try {
-				session = HibDataSource.getSession();
-				Criteria criteria = session.createCriteria(TimetableDTO.class);
-				if (dto.getId() > 0) {
-					criteria.add(Restrictions.eq("id", dto.getId()));
-				}
-				if (dto.getCourseId() > 0) {
-					criteria.add(Restrictions.eq("courseId", dto.getCourseId()));
-				}
-				if (dto.getCourseName() != null && dto.getCourseName().length() > 0) {
-                criteria.add(Restrictions.like("courseName", dto.getCourseName()+"%"));
-				}
-				if (dto.getSubjectId() > 0) {
-			    criteria.add(Restrictions.eq("subjectId", dto.getSubjectId()));
-				}
-				if (dto.getSubjectName() != null && dto.getSubjectName().length() > 0) {
-				criteria.add(Restrictions.like("subjectName", dto.getSubjectName()+"%"));
-				}
-				if (dto.getSemester() != null && dto.getSemester().length() > 0) {
-			    criteria.add(Restrictions.like("semester", dto.getSemester()));
-				}
-				if (dto.getDescription() != null && dto.getDescription().length() > 0) {
-			    criteria.add(Restrictions.like("description", dto.getDescription()));
-				}
-				if (dto.getExamDate() != null && dto.getExamDate().getDate() > 0) {
+			session = HibDataSource.getSession();
+			Criteria criteria = session.createCriteria(TimetableDTO.class);
+			if (dto.getId() > 0) {
+				criteria.add(Restrictions.eq("id", dto.getId()));
+				
+			}
+			if (dto.getCourseId() > 0) {
+				criteria.add(Restrictions.eq("courseId", dto.getCourseId()));
+			}
+			if (dto.getCourseName() != null && dto.getCourseName().length() > 0) {
+				criteria.add(Restrictions.like("courseName", dto.getCourseName() + "%"));
+			}
+			if (dto.getSubjectId() > 0) {
+				criteria.add(Restrictions.eq("subjectId", dto.getSubjectId()));
+			}
+			if (dto.getSubjectName() != null && dto.getSubjectName().length() > 0) {
+				criteria.add(Restrictions.like("subjectName", dto.getSubjectName() + "%"));
+			}
+			if (dto.getSemester() != null && dto.getSemester().length() > 0) {
+				criteria.add(Restrictions.like("semester", dto.getSemester()));
+			}
+			if (dto.getDescription() != null && dto.getDescription().length() > 0) {
+				criteria.add(Restrictions.like("description", dto.getDescription()));
+			}
+			if (dto.getExamDate() != null && dto.getExamDate().getDate() > 0) {
 				criteria.add(Restrictions.eq("examDate", dto.getExamDate()));
-				}
-				if (dto.getExamTime() != null && dto.getExamTime().length() > 0) {
+			}
+			if (dto.getExamTime() != null && dto.getExamTime().length() > 0) {
 				criteria.add(Restrictions.like("examTime", dto.getExamTime()));
-				}
+			}
 
-				if (pageSize > 0) {
-	                criteria.setFirstResult(((pageNo - 1) * pageSize));
-	                criteria.setMaxResults(pageSize);
-	            }
+			if (pageSize > 0) {
+				criteria.setFirstResult(((pageNo - 1) * pageSize));
+				criteria.setMaxResults(pageSize);
+			}
 
-	            list = criteria.list();
-	        } catch (HibernateException e) {
-	            log.error("Database Exception..", e);
-	            throw new ApplicationException("Exception in user search");
-	        } finally {
-	            session.close();
-	        }
-
-	        log.debug("Model search End");
-	        return list;
+			list = criteria.list();
+		} catch (HibernateException e) {
+			log.error("Database Exception..", e);
+			throw new ApplicationException("Exception in user search");
+		} finally {
+			session.close();
 		}
-	 
 
-		/**
-		 * Get List of Timetable
-		 * 
-		 * @return list : List of Timetable
-		 * @throws ApplicationException
-		 */
+		log.debug("Model search End");
+		return list;
+		
+		
+		
+	}
+
+	/**
+	 * Get List of Timetable
+	 * 
+	 * @return list : List of Timetable
+	 * @throws ApplicationException
+	 */
 
 	public List<TimetableDTO> list() throws ApplicationException {
 		return list(0, 0);
 	}
 
-		/**
-		 * Get List of Timetable with pagination
-		 * 
-		 * @return list : List of Timetable
-		 * @param pageNo
-		 *            : Current Page No.
-		 * @param pageSize
-		 *            : Size of Page
-		 * @throws ApplicationException
-		 */
+	/**
+	 * Get List of Timetable with pagination
+	 * 
+	 * @return list : List of Timetable
+	 * @param pageNo   : Current Page No.
+	 * @param pageSize : Size of Page
+	 * @throws ApplicationException
+	 */
 
-	public List<TimetableDTO> list(int pageNo, int pageSize) throws ApplicationException{
-			log.debug("Model list Started");
-	        Session session = null;
-	        List list = null;
-	        try {
-	            session = HibDataSource.getSession();
-	            Criteria criteria = session.createCriteria(TimetableDTO.class);
+	public List<TimetableDTO> list(int pageNo, int pageSize) throws ApplicationException {
+		log.debug("Model list Started");
+		Session session = null;
+		List list = null;
+		try {
+			session = HibDataSource.getSession();
+			Criteria criteria = session.createCriteria(TimetableDTO.class);
 
-	            // if page size is greater than zero then apply pagination
-	            if (pageSize > 0) {
-	                pageNo = ((pageNo - 1) * pageSize) + 1;
-	                criteria.setFirstResult(pageNo);
-	                criteria.setMaxResults(pageSize);
-	            }
+			// if page size is greater than zero then apply pagination
+			if (pageSize > 0) {
+				pageNo = ((pageNo - 1) * pageSize) + 1;
+				criteria.setFirstResult(pageNo);
+				criteria.setMaxResults(pageSize);
+			}
 
-	            list = criteria.list();
-	        } catch (HibernateException e) {
-	            log.error("Database Exception..", e);
-	            throw new ApplicationException(
-	                    "Exception : Exception in  Users list");
-	        } finally {
-	            session.close();
-	        }
-
-	        log.debug("Model list End");
-	        return list;
+			list = criteria.list();
+		} catch (HibernateException e) {
+			log.error("Database Exception..", e);
+			throw new ApplicationException("Exception : Exception in  Users list");
+		} finally {
+			session.close();
 		}
-	 
+
+		log.debug("Model list End");
+		return list;
+	}
+
 }

@@ -1,5 +1,4 @@
 package in.co.rays.controller;
-
 import in.co.rays.dto.BaseDTO;
 import in.co.rays.dto.SubjectDTO;
 import in.co.rays.exception.ApplicationException;
@@ -19,14 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-
 /**
  * Subject functionality Controller. Performs operation for add, update, delete
  * and get Subject
  * 
- * @author Proxy
- * @version 1.0 Copyright (c) Proxy
+ * @author uday
+ *
  */
+
 @WebServlet(name = "SubjectCtl", urlPatterns = { "/ctl/SubjectCtl" })
 public class SubjectCtl extends BaseCtl {
 
@@ -40,12 +39,17 @@ public class SubjectCtl extends BaseCtl {
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected void preload(HttpServletRequest request) {
+		
 		CourseModelInt model = ModelFactory.getInstance().getCourseModel();
 		try {
+			
 			List l = model.list();
 			request.setAttribute("courseList", l);
+				
 		} catch (ApplicationException e) {
+			
 			log.error(e);
+			
 		}
 
 	}
@@ -58,19 +62,27 @@ public class SubjectCtl extends BaseCtl {
 		boolean pass = true;
 
 		@SuppressWarnings("unused")
+		
 		String op = DataUtility.getString(request.getParameter("operation"));
+		
 
 		if (DataValidator.isNull(request.getParameter("name"))) {
+			
 			request.setAttribute("name", PropertyReader.getValue("error.require", "Subject Name"));
 			pass = false;
+			
 		}
 		if (DataValidator.isNull(request.getParameter("courseId"))) {
+			
 			request.setAttribute("courseId", PropertyReader.getValue("error.require", "Course Name"));
 			pass = false;
+			
 		}
 		if (DataValidator.isNull(request.getParameter("description"))) {
+			
 			request.setAttribute("description", PropertyReader.getValue("error.require", "Description"));
 			pass = false;
+			
 		}
 
 		log.debug("SubjectCtl Method validate Ended");
@@ -88,11 +100,11 @@ public class SubjectCtl extends BaseCtl {
 		dto.setId(DataUtility.getLong(request.getParameter("id")));
 
 		dto.setName(DataUtility.getString(request.getParameter("name")));
-
+    
 		dto.setCourseId(DataUtility.getLong(request.getParameter("courseId")));
-
+	
 		dto.setDescription(DataUtility.getString(request.getParameter("description")));
-
+		 
 		populateDTO(dto, request);
 
 		log.debug("SubjectCtl Method populatedto Ended");
@@ -103,12 +115,12 @@ public class SubjectCtl extends BaseCtl {
 	/**
 	 * Contains Display logics
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		log.debug("SubjectCtl Method doGet Started");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
+		
 		long id = DataUtility.getLong(request.getParameter("id"));
 
 		// get model
@@ -117,12 +129,16 @@ public class SubjectCtl extends BaseCtl {
 		if (id > 0 || op != null) {
 			SubjectDTO dto;
 			try {
+				
 				dto = model.findByPK(id);
 				ServletUtility.setDto(dto, request);
+				
 			} catch (ApplicationException e) {
+				
 				log.error(e);
 				ServletUtility.handleException(e, request, response);
 				return;
+				
 			}
 		}
 		ServletUtility.forward(getView(), request, response);
@@ -136,9 +152,10 @@ public class SubjectCtl extends BaseCtl {
 			throws ServletException, IOException {
 
 		log.debug("SubjectCtl Method doPost Started");
-
+		
 		String op = DataUtility.getString(request.getParameter("operation"));
-
+		
+		
 		// get model
 
 		SubjectModelInt model = ModelFactory.getInstance().getSubjectModel();
@@ -151,18 +168,22 @@ public class SubjectCtl extends BaseCtl {
 
 			try {
 				long pk = model.add(dto);
+			
 				dto.setId(pk);
 
-				// ServletUtility.setDTO(dto, request);
+				ServletUtility.setDto(dto, request);
 				ServletUtility.setSuccessMessage("Data is successfully saved", request);
 
 			} catch (ApplicationException e) {
 				log.error(e);
 				ServletUtility.handleException(e, request, response);
 				return;
+				
 			} catch (DuplicateRecordException e) {
+				
 				ServletUtility.setDto(dto, request);
 				ServletUtility.setErrorMessage("Subject already exists", request);
+				
 			}
 
 		} else if (OP_UPDATE.equalsIgnoreCase(op)) {
@@ -171,6 +192,7 @@ public class SubjectCtl extends BaseCtl {
 
 			try {
 				if (id > 0) {
+					
 					model.update(dto);
 
 				}
@@ -178,12 +200,16 @@ public class SubjectCtl extends BaseCtl {
 				ServletUtility.setSuccessMessage("Data is successfully updated", request);
 
 			} catch (ApplicationException e) {
+				
 				log.error(e);
 				ServletUtility.handleException(e, request, response);
 				return;
+				
 			} catch (DuplicateRecordException e) {
+				
 				ServletUtility.setDto(dto, request);
 				ServletUtility.setErrorMessage("Suject already exists", request);
+				
 			}
 
 		} else if (OP_DELETE.equalsIgnoreCase(op)) {
@@ -206,17 +232,21 @@ public class SubjectCtl extends BaseCtl {
 			return;
 
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
+			
 			ServletUtility.redirect(ORSView.SUBJECT_CTL, request, response);
 			return;
 		}
 		ServletUtility.forward(getView(), request, response);
 
 		log.debug("SubjectCtl Method doPost Ended");
+		
 	}
 
 	@Override
 	protected String getView() {
+		
 		return ORSView.SUBJECT_VIEW;
+		
 	}
 
 }

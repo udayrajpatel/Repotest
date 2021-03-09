@@ -109,6 +109,7 @@ public class TimetableDTO extends BaseDTO {
 	public String getValue() {
 		
 		return subjectName;
+
 	}
 
 }

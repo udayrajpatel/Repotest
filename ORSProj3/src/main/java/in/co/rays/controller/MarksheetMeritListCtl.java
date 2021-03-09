@@ -44,7 +44,7 @@ public class MarksheetMeritListCtl extends BaseCtl {
 	/**
 	 * Contains Display logics
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -63,7 +63,8 @@ public class MarksheetMeritListCtl extends BaseCtl {
 		MarksheetModelInt model = ModelFactory.getInstance().getMarksheetModel();
 		List list = null;
 		try {
-			list = model.getMeritList(0,10);
+			list = model.getMeritList(1,10);
+			System.out.println("list return");
 			ServletUtility.setList(list, request);
 			if (list == null || list.size() == 0) {
 				ServletUtility.setErrorMessage("No record found ", request);
@@ -83,7 +84,7 @@ public class MarksheetMeritListCtl extends BaseCtl {
 	/**
 	 * Contains Submit logics
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

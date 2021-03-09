@@ -20,6 +20,7 @@ import in.co.rays.util.ServletUtility;
 
 /**
  * 
+ * 
  * Login functionality Controller. Performs operation for Login
  * 
  * @author uday
@@ -30,10 +31,11 @@ import in.co.rays.util.ServletUtility;
 public class LoginCtl extends BaseCtl {
 
 	private static final long serialVersionUID = 1L;
+	
 	public static final String OP_REGISTER = "Register";
 	public static final String OP_SIGN_IN = "Sign In";
 	public static final String OP_SIGN_UP = "Sign Up";
-	public static final String OP_LOG_OUT = "Logout";
+	public static final String OP_LOG_OUT = "logout";
 
 	private static Logger log = Logger.getLogger(LoginCtl.class);
 
@@ -117,6 +119,7 @@ public class LoginCtl extends BaseCtl {
 		
 		long id = DataUtility.getLong(request.getParameter("id"));
 		if (id > 0) {
+			
 			UserDTO userdto;
 			try {
 				userdto = model.findByPK(id);
@@ -156,7 +159,7 @@ public class LoginCtl extends BaseCtl {
 			throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		
+	
 		log.debug(" Method doPost Started");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
@@ -186,7 +189,9 @@ public class LoginCtl extends BaseCtl {
 					RoleDTO roledto = role.findByPK(roleId);
 
 					if (roledto != null) {
+						
 						session.setAttribute("role", roledto.getName());
+						
 					}
 
 					String uri = (String) request.getParameter("uri");
@@ -194,7 +199,9 @@ public class LoginCtl extends BaseCtl {
 					if (uri == null || "null".equalsIgnoreCase(uri)) {
 
 						ServletUtility.redirect(ORSView.WELCOME_CTL, request, response);
+						
 						return;
+						
 
 					} else {
                         
@@ -206,7 +213,9 @@ public class LoginCtl extends BaseCtl {
 				} else {
 					
 					dto = (UserDTO) populateDTO(request);
+					
 					ServletUtility.setDto(dto, request);
+					
 					ServletUtility.setErrorMessage("Invalid LoginId And Password", request);
 					
 				}
@@ -224,14 +233,18 @@ public class LoginCtl extends BaseCtl {
 			return;
 
 		}
+		
 		ServletUtility.forward(getView(), request, response);
 
 		log.debug("UserCtl Method doPost Ended");
+		
 	}
 
 	@Override
 	protected String getView() {
+		
 		return ORSView.LOGIN_VIEW;
+		
 	}
 
 }

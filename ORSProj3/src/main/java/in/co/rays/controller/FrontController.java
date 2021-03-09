@@ -21,11 +21,13 @@ import javax.servlet.http.HttpSession;
  * @author uday
  *
  */
+
 @WebFilter(urlPatterns = { "/doc/*","/ctl/*" })
 
 public class FrontController implements Filter {
 
 	public void init(FilterConfig conf) throws ServletException {
+		
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
@@ -39,12 +41,14 @@ public class FrontController implements Filter {
 
 		String uri = request.getRequestURI();
 		
-		request.setAttribute("uri", uri);
+		request.setAttribute("uri",uri);
 
 		if (session.getAttribute("user") == null) {
 			
-			request.setAttribute("error", "Session has been expired. Please Login again");
+			request.setAttribute("error", "Session has been expired  Please Login again");
+			
 			ServletUtility.forward(ORSView.LOGIN_VIEW, request, response);
+			
 			return;
 			
 		} else {

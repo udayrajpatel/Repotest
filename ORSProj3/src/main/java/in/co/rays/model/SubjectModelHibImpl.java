@@ -1,5 +1,4 @@
 package in.co.rays.model;
-import java.sql.Connection;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -9,20 +8,22 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import in.co.rays.dto.CourseDTO;
 import in.co.rays.dto.SubjectDTO;
-import in.co.rays.dto.UserDTO;
 import in.co.rays.exception.ApplicationException;
 import in.co.rays.exception.DatabaseException;
 import in.co.rays.exception.DuplicateRecordException;
 import in.co.rays.util.HibDataSource;
 
 /**
+ * 
  * Hibernate Implementation of Subject Model
  * 
  * @author uday
  *
  */
 
+ 
 public class SubjectModelHibImpl implements SubjectModelInt {
+	
 Logger log = Logger.getLogger(SubjectModelHibImpl.class);
 
 /**
@@ -39,34 +40,51 @@ public long add(SubjectDTO dto) throws ApplicationException, DuplicateRecordExce
 	
 	log.debug("model add method start");
 	long pk = 0;
+	
 	CourseModelHibImpl model = new CourseModelHibImpl();
+	
 	CourseDTO coursedto = model.findByPK(dto.getCourseId());
+	
 	dto.setCourseName(coursedto.getName());
 
 	SubjectDTO duplicateSubject = findByName(dto.getName());
+	
 	// Check if create Subject Name already exist
 	if (duplicateSubject != null) {
+		
 		throw new DuplicateRecordException("Subject Name already exists");
+		
 	}
 	Session session = HibDataSource.getSession();
+	
     Transaction transaction = null;
+    
     try {
+    	
         transaction = session.beginTransaction();
         session.save(dto);
         pk = dto.getId();
         transaction.commit();
+        
     } catch (HibernateException e) {
+    	
         log.error("Database Exception..", e);
         if (transaction != null) {
+        	
             transaction.rollback();
+            
         }
         throw new ApplicationException("Exception in User Add "
                 + e.getMessage());
     } finally {
+    	
         session.close();
+        
     }
+    
     log.debug("Model add End");
     return dto.getId();
+    
 }
 
 
@@ -82,10 +100,12 @@ public void delete(SubjectDTO dto) throws ApplicationException{
     Session session = null;
     Transaction transaction = null;
     try {
+    	
         session = HibDataSource.getSession();
         transaction = session.beginTransaction();
         session.delete(dto);
         transaction.commit();
+        
     } catch (HibernateException e) {
         log.error("Database Exception..", e);
         if (transaction != null) {
@@ -94,12 +114,11 @@ public void delete(SubjectDTO dto) throws ApplicationException{
         throw new ApplicationException("Exception in User Delete"
                 + e.getMessage());
     } finally {
+    	
         session.close();
     }
     log.debug("Model delete End");
 }
-
-
 
 /**  find course by name
  * @param name
@@ -112,6 +131,7 @@ public SubjectDTO findByName(String name) throws ApplicationException{
 	SubjectDTO dto = null;
 	try {
 		session = HibDataSource.getSession();
+		@SuppressWarnings("deprecation")
 		Criteria criteria = session.createCriteria(SubjectDTO.class);
 		criteria.add(Restrictions.eq("name", name));
 		 List list =  criteria.list();
@@ -146,7 +166,7 @@ public SubjectDTO findByPK(long pk) throws ApplicationException {
     SubjectDTO dto = null;
     try {
         session = HibDataSource.getSession();
-        dto = (SubjectDTO) session.get(SubjectDTO.class, pk);
+        dto = session.get(SubjectDTO.class, pk);
     } catch (HibernateException e) {
         log.error("Database Exception..", e);
         throw new ApplicationException(
@@ -269,10 +289,11 @@ public List search(SubjectDTO dto, int pageNo, int pageSize)
 
 
 /**
- * Gets List of subject
  * 
+ * Gets List of subject
  * @return list : List of subject
  * @throws DatabaseException
+ * 
  */
 public List list() throws ApplicationException {
     return list(0, 0);

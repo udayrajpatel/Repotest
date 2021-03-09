@@ -159,6 +159,7 @@ public FacultyDTO findByEmail(String email) throws ApplicationException{
  * @throws DatabaseException
  */
 public FacultyDTO findByPK(long pk) throws ApplicationException {
+	
     log.debug("Model findByPK Started");
     Session session = null;
     FacultyDTO dto = null;

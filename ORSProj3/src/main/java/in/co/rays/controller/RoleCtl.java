@@ -27,8 +27,10 @@ import in.co.rays.util.ServletUtility;
  */
 @WebServlet(urlPatterns = { "/ctl/RoleCtl" })
 public class RoleCtl extends BaseCtl {
-	private static final long serialVersionULD = 1L;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger(RoleCtl.class);
 
 	protected boolean validate(HttpServletRequest request) {

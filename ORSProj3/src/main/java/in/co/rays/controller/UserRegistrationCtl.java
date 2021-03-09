@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 /**
+ * 
  * User registration functionality Controller. Performs operation for User
  * Registration
  * 
@@ -69,20 +70,25 @@ public class UserRegistrationCtl extends BaseCtl {
 			pass = false;
 		}
 		if (DataValidator.isNull(password)) {
+			
 			request.setAttribute("password", PropertyReader.getValue("error.require", "Password"));
 			pass = false;
 		} else if (!DataValidator.isPasswordLength(password)) {
+			
 			request.setAttribute("password", "Password should be 8 to 12 characters");
 			pass = false;
 		} else if (!DataValidator.isPassword(password)) {
+			
 			request.setAttribute("password", "Must contain uppercase, lowercase, digit & special character");
 			pass = false;
 		}
 		if (DataValidator.isNull(request.getParameter("confirmPassword"))) {
+			
 			request.setAttribute("confirmPassword", PropertyReader.getValue("error.require", "Confirm Password"));
 			pass = false;
 		}
 		if (DataValidator.isNull(request.getParameter("gender"))) {
+			
 			request.setAttribute("gender", PropertyReader.getValue("error.require", "Gender"));
 			pass = false;
 		}
@@ -146,60 +152,87 @@ public class UserRegistrationCtl extends BaseCtl {
 		log.debug("UserRegistrationCtl Method populatedto Ended");
 
 		return dto;
+
 	}
 
 	/**
+	 * 
 	 * Display concept of user registration
+	 * 
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		log.debug("UserRegistrationCtl Method doGet Started");
+		
 		ServletUtility.forward(getView(), request, response);
 
 	}
 
 	/**
+	 * 
 	 * Submit concept of user registration
+	 * 
 	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		System.out.println("in get method");
 		log.debug("UserRegistrationCtl Method doPost Started");
 		String op = DataUtility.getString(request.getParameter("operation"));
 		// get model
+		
 		UserModelInt model = ModelFactory.getInstance().getUserModel();
+		
 		DataUtility.getLong(request.getParameter("id"));
+
 		if (OP_SIGN_UP.equalsIgnoreCase(op)) {
+
 			UserDTO dto = (UserDTO) populateDTO(request);
 			try {
 				long pk = model.registerUser(dto);
 				dto.setId(pk);
+
 				request.getSession().setAttribute("UserDTO", dto);
+
 				ServletUtility.setSuccessMessage("Registration successful!", request);
+
 				ServletUtility.forward(getView(), request, response);
+
 				return;
+
 			} catch (ApplicationException e) {
+
 				log.error(e);
 				ServletUtility.handleException(e, request, response);
 				return;
+
 			} catch (DuplicateRecordException e) {
 				log.error(e);
 				ServletUtility.setDto(dto, request);
+
 				ServletUtility.setErrorMessage("Login id already exists", request);
+
 				ServletUtility.forward(getView(), request, response);
+
 			}
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
+
 			ServletUtility.redirect(ORSView.USER_REGISTRATION_CTL, request, response);
 			return;
+
 		}
 
 		log.debug("UserRegistrationCtl Method doPost Ended");
+
 	}
 
 	@Override
 	protected String getView() {
+
 		return ORSView.USER_REGISTRATION_VIEW;
+
 	}
 
 }
