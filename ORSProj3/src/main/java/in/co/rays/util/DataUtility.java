@@ -104,6 +104,20 @@ public class DataUtility {
 		return date;
 	}
 
+	public static String getDate(Date val) {
+		
+		
+			if(val!=null) {
+				
+			return formatter.format(val);
+			
+			}
+			return "";
+		} 
+	
+	
+	
+	
 	/**
 	 * Gets the date string.
 	 *

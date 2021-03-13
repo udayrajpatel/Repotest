@@ -76,10 +76,10 @@ public class FacultyModelTest {
 			dto.setCourseId(5L);
 			dto.setCourseName("pythan");
 			dto.setSubjectName("Serializable");
-
+            dto.setSubjectId(7L);
 			long pk = model.add(dto);
 			
-			System.out.println("Test add succ");
+			System.out.println("Test add succsessfuly");
 			FacultyDTO addedDto = model.findByPK(pk);
 			if (addedDto == null) {
 				System.out.println("Test add fail");

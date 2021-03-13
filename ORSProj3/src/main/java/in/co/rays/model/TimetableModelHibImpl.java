@@ -4,14 +4,12 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import in.co.rays.dto.CourseDTO;
 import in.co.rays.dto.SubjectDTO;
 import in.co.rays.dto.TimetableDTO;
-import in.co.rays.dto.UserDTO;
 import in.co.rays.exception.ApplicationException;
 import in.co.rays.exception.DatabaseException;
 import in.co.rays.exception.DuplicateRecordException;
@@ -30,6 +28,7 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 	Logger log = Logger.getLogger(TimetableModelHibImpl.class);
 
 	/**
+	 * 
 	 * Add a Timetable
 	 * 
 	 * @param dto
@@ -47,14 +46,14 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 		CourseDTO cdto = cmodel.findByPK(dto.getCourseId());
 
 		dto.setCourseName(cdto.getName());
-
+		System.out.println(dto.getCourseName());
 		// get subject name
 		SubjectModelHibImpl smodel = new SubjectModelHibImpl();
 
 		SubjectDTO sdto = smodel.findByPK(dto.getSubjectId());
 
 		dto.setSubjectName(sdto.getName());
-
+		System.out.println(dto.getSubjectName() + "i am in model of add");
 		Session session = null;
 		Transaction transaction = null;
 		try {
@@ -83,6 +82,7 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 	 * @param dto
 	 * @throws ApplicationException
 	 */
+	
 	public void delete(TimetableDTO dto) throws ApplicationException {
 		log.debug("Model delete Started");
 		Session session = null;
@@ -125,13 +125,13 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 		 * q.setLong(0, courseId); q.setLong(1, subjectId); q.setString(2, semester);
 		 * q.setDate(3, examDate); q.setString(4, examTime);
 		 */
-		
+
 		Criteria criteria = session.createCriteria(TimetableDTO.class);
 		criteria.add(Restrictions.eq("courseId", courseId));
 		criteria.add(Restrictions.eq("subjectId", subjectId));
 		criteria.add(Restrictions.eq("examDate", examDate));
 		criteria.add(Restrictions.eq("examTime", examTime));
-		
+
 		List list = criteria.list();
 
 		if (list.size() > 0) {
@@ -157,6 +157,7 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 	 */
 	public TimetableDTO checkByCourseName(Long courseId, Date examDate) {
 		log.debug(" model checkByCourseName start");
+
 		Session session = null;
 		TimetableDTO dto = null;
 
@@ -170,15 +171,17 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 		criteria.add(Restrictions.eq("courseId", courseId));
 		// criteria.add(Restrictions.eq("subjectId", subjectId));
 		criteria.add(Restrictions.eq("examDate", examDate));
+
 		List list = criteria.list();
+
 		if (list.size() > 0) {
 			dto = (TimetableDTO) list.get(0);
 		} else {
-			
+
 			dto = null;
-			
+
 		}
-		
+
 		log.debug("model exam time end");
 		return dto;
 	}
@@ -195,7 +198,7 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 		Session session = null;
 		TimetableDTO dto = null;
 		session = HibDataSource.getSession();
-	
+
 		/*
 		 * Query q = session.
 		 * createQuery("from TimetableDTO where CourseId=? and sujbjectId=? and examDate=?"
@@ -208,20 +211,20 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 		criteria.add(Restrictions.eq("examDate", examDate));
 
 		List list = criteria.list();
-		
+
 		if (list.size() > 0) {
-			
+
 			dto = (TimetableDTO) list.get(0);
-			
+
 		} else {
-			
+
 			dto = null;
 		}
-		
+
 		log.debug("model checksubject end");
-		
+
 		return dto;
-		
+
 	}
 
 	/**
@@ -244,7 +247,7 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 		 * ); q.setLong(0, courseId); q.setLong(1, subjectId); q.setString(2, semester);
 		 * q.setDate(3, examDate); List list = q.list();
 		 */
-		
+
 		Criteria criteria = session.createCriteria(TimetableDTO.class);
 		criteria.add(Restrictions.eq("courseId", courseId));
 		criteria.add(Restrictions.eq("subjectId", subjectId));
@@ -252,7 +255,7 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 		criteria.add(Restrictions.eq("examDate", examDate));
 
 		List list = criteria.list();
-		
+
 		if (list.size() > 0) {
 			dto = (TimetableDTO) list.get(0);
 		} else {
@@ -349,31 +352,45 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 	 */
 
 	public List<TimetableDTO> search(TimetableDTO dto, int pageNo, int pageSize) throws ApplicationException {
-		
+
 		log.debug("model search method start");
 		Session session = null;
+		@SuppressWarnings("rawtypes")
 		List list = null;
 
 		try {
-			
+
 			session = HibDataSource.getSession();
+			@SuppressWarnings("deprecation")
 			Criteria criteria = session.createCriteria(TimetableDTO.class);
+
 			if (dto.getId() > 0) {
 				criteria.add(Restrictions.eq("id", dto.getId()));
-				
+
 			}
-			if (dto.getCourseId() > 0) {
-				criteria.add(Restrictions.eq("courseId", dto.getCourseId()));
-			}
+			
+			  if (dto.getCourseId() > 0) { criteria.add(Restrictions.eq("courseId",
+			  dto.getCourseId())); }
+			 
+
 			if (dto.getCourseName() != null && dto.getCourseName().length() > 0) {
 				criteria.add(Restrictions.like("courseName", dto.getCourseName() + "%"));
 			}
-			if (dto.getSubjectId() > 0) {
-				criteria.add(Restrictions.eq("subjectId", dto.getSubjectId()));
-			}
+
+			System.out.println(dto.getCourseName() + "I am in timetable-model search");
+
+			
+			  if (dto.getSubjectId() > 0) { criteria.add(Restrictions.eq("subjectId",
+			  dto.getSubjectId())); }
+			 
+
 			if (dto.getSubjectName() != null && dto.getSubjectName().length() > 0) {
+
 				criteria.add(Restrictions.like("subjectName", dto.getSubjectName() + "%"));
 			}
+
+			System.out.println(dto.getSubjectName() + "I am in timetable-model search");
+
 			if (dto.getSemester() != null && dto.getSemester().length() > 0) {
 				criteria.add(Restrictions.like("semester", dto.getSemester()));
 			}
@@ -393,6 +410,7 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 			}
 
 			list = criteria.list();
+
 		} catch (HibernateException e) {
 			log.error("Database Exception..", e);
 			throw new ApplicationException("Exception in user search");
@@ -402,9 +420,7 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 
 		log.debug("Model search End");
 		return list;
-		
-		
-		
+
 	}
 
 	/**
@@ -431,8 +447,11 @@ public class TimetableModelHibImpl implements TimetableModelInt {
 		log.debug("Model list Started");
 		Session session = null;
 		List list = null;
+
 		try {
+
 			session = HibDataSource.getSession();
+
 			Criteria criteria = session.createCriteria(TimetableDTO.class);
 
 			// if page size is greater than zero then apply pagination

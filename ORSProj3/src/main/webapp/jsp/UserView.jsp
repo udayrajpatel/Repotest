@@ -42,7 +42,7 @@
 
 				<div class="row">
 
-					<div class="col-lg-8 col-md-4 ml-auto mr-auto"
+					<div class="col-xs-8 col-xs-4 ml-auto mr-auto"
 						style="margin-left: 70vh">
 
 						<div class="card card-login pull-left container-fluid">
@@ -318,8 +318,9 @@
 									</div>
 									<div class="input-group col-sm-12 ">
 										<div class="input-group-prepend ">
-											<span class="input-group-text"> <i
-												class="fa fa-venus-double" aria-hidden="true"
+											<span class="input-group-text"> 
+											
+											<i class="fa fa-venus-double" aria-hidden="true"
 												style="font-size: 1em;"></i>
 
 											</span>
@@ -407,19 +408,19 @@
 									<%
 										if (dto != null && dto.getId() > 0) {
 									%>
-									<div class="col-md-12 ml-auto d-flex justify-content-center">
+									<div class="col-xs-12 ml-auto d-flex justify-content-center" style="margin-top: 10%">
 
 										<button class="btn btn-primary" name="operation" type="submit"
 											value="<%=UserCtl.OP_UPDATE%>">Update</button>
 
-										<button class="btn" name="operation" type="submit"
+										<button class="btn btn-primary" style="margin-left: 6%" name="operation" type="submit"
 											value="<%=UserCtl.OP_CANCEL%>">Cancel</button>
 									</div>
 									<%
 										} else {
 									%>
 
-									<div class="col-md-12 ml-auto d-flex justify-content-center"
+									<div class="col-xs-12 ml-auto d-flex justify-content-center"
 										style="margin-top: 10%">
 
 										<button class="btn btn-primary" name="operation" type="submit"

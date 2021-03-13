@@ -40,19 +40,28 @@ public class TimetableListCtl extends BaseCtl {
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected void preload(HttpServletRequest request) {
+		
+	
+		
 		SubjectModelInt subjectModel = ModelFactory.getInstance().getSubjectModel();
+		
 		CourseModelInt courseModel = ModelFactory.getInstance().getCourseModel();
 
 		try {
 			
 			List subjectList = subjectModel.list();
+			
 			request.setAttribute("subjectList", subjectList);
 
 			List courseList = courseModel.list();
+			
 			request.setAttribute("courseList", courseList);
+			
 
 		} catch (ApplicationException e) {
+			
 			log.error(e);
+			
 		}
 
 	}
@@ -61,14 +70,16 @@ public class TimetableListCtl extends BaseCtl {
 	protected BaseDTO populateDTO(HttpServletRequest request) {
 
 		TimetableDTO dto = new TimetableDTO();
-
+		dto.setCourseName(DataUtility.getString(request.getParameter("courseName")));
 		dto.setCourseId(DataUtility.getLong(request.getParameter("courseId")));
-
+		
+        dto.setSubjectName(DataUtility.getString(request.getParameter("subjectName")));
 		dto.setSubjectId(DataUtility.getLong(request.getParameter("subjectId")));
-
-		dto.setExamDate(DataUtility.getDate(request.getParameter("examDate")));
+		
+        dto.setExamDate(DataUtility.getDate(request.getParameter("examDate")));
 
 		return dto;
+		
 	}
 
 	/**
@@ -95,10 +106,11 @@ public class TimetableListCtl extends BaseCtl {
 			list = model.search(dto, pageNo, pageSize);
 			Collections.sort(list);
 			next = model.search(dto, pageNo + 1, pageSize);
-			// ServletUtility.setList(list, request);
+			 ServletUtility.setList(list, request);
 			if (list == null || list.size() == 0) {
 				ServletUtility.setErrorMessage("No record found ", request);
 			}
+			
 			request.setAttribute("nextListSize", next.size());
 			ServletUtility.setList(list, request);
 			ServletUtility.setPageNo(pageNo, request);
@@ -127,11 +139,14 @@ public class TimetableListCtl extends BaseCtl {
 
 		int pageNo = DataUtility.getInt(request.getParameter("pageNo"));
 		int pageSize = DataUtility.getInt(request.getParameter("pageSize"));
+		
 		pageNo = (pageNo == 0) ? 1 : pageNo;
 		pageSize = (pageSize == 0) ? DataUtility.getInt(PropertyReader.getValue("page.size")) : pageSize;
 
 		TimetableDTO dto = (TimetableDTO) populateDTO(request);
+		
 		String op = DataUtility.getString(request.getParameter("operation"));
+		
 		TimetableModelInt model = ModelFactory.getInstance().getTimetableModel();
 
 		// get the selected checkbox ids array for delete list
@@ -143,8 +158,10 @@ public class TimetableListCtl extends BaseCtl {
 
 				if (OP_SEARCH.equalsIgnoreCase(op)) {
 					pageNo = 1;
+					
 				} else if (OP_NEXT.equalsIgnoreCase(op)) {
 					pageNo++;
+					
 				} else if (OP_PREVIOUS.equalsIgnoreCase(op) && pageNo > 1) {
 					pageNo--;
 				}
@@ -152,23 +169,31 @@ public class TimetableListCtl extends BaseCtl {
 				ServletUtility.redirect(ORSView.TIMETABLE_CTL, request, response);
 				return;
 			} else if (OP_DELETE.equalsIgnoreCase(op)) {
+				
 				pageNo = 1;
 				if (ids != null && ids.length > 0) {
+					
 					TimetableDTO deletedto = new TimetableDTO();
 					for (String id : ids) {
+						
 						deletedto.setId(DataUtility.getLong(id));
 						model.delete(deletedto);
 						ServletUtility.setSuccessMessage("Data is deleted successfully", request);
+						
 					}
 				} else {
 					ServletUtility.setErrorMessage("Select at least one record", request);
 				}
 			} else if (OP_RESET.equalsIgnoreCase(op)) {
+				
 				ServletUtility.redirect(ORSView.TIMETABLE_LIST_CTL, request, response);
 				return;
+				
 			} else if (OP_BACK.equalsIgnoreCase(op)) {
-				ServletUtility.redirect(ORSView.WELCOME_CTL, request, response);
+				
+				ServletUtility.redirect(ORSView.TIMETABLE_LIST_CTL, request, response);
 				return;
+				
 			}
 
 			list = model.search(dto, pageNo, pageSize);
@@ -176,9 +201,13 @@ public class TimetableListCtl extends BaseCtl {
 			ServletUtility.setDto(dto, request);
 			next = model.search(dto, pageNo + 1, pageSize);
 			ServletUtility.setList(list, request);
+		
 			if (!OP_DELETE.equalsIgnoreCase(op)) {
+				
 				if (list == null || list.size() == 0) {
+					
 					ServletUtility.setErrorMessage("No record found ", request);
+					
 				}
 			}
 			ServletUtility.setList(list, request);
@@ -194,7 +223,9 @@ public class TimetableListCtl extends BaseCtl {
 			return;
 			
 		}
+		
 		log.debug("TimetableListCtl doGet End");
+		
 	}
 
 	@Override

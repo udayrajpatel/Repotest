@@ -399,14 +399,14 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
      */
     public List getMeritList(int pageNo, int pageSize)
             throws ApplicationException {
+    	
         log.debug("Model getMeritList Started");
         Session session = null;
         List list = null;
         try {
             session = HibDataSource.getSession();
 
-            StringBuffer hql = new StringBuffer(
-                    "from MarksheetDTO where physics>33 and chemistry>33 and maths>33 order by (physics + chemistry + maths)  desc");
+            StringBuffer hql = new StringBuffer("from MarksheetDTO where physics>33 and chemistry>33 and maths>33 order by (physics + chemistry + maths)  desc");
 
             // if page size is greater than zero then apply pagination
            
@@ -415,6 +415,7 @@ public class MarksheetModelHibImpl implements MarksheetModelInt {
 
            // System.out.println(hql.toString());
             Query query = session.createQuery(hql.toString());
+          
             if(pageSize>=0){
             	query.setFirstResult(pageNo);
             	query.setMaxResults(pageSize);

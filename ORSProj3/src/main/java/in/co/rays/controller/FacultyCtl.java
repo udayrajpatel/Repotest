@@ -35,10 +35,12 @@ public class FacultyCtl extends BaseCtl {
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected void preload(HttpServletRequest request) {
+		
 		CollegeModelInt collegeModel = ModelFactory.getInstance().getCollegeModel();
 		SubjectModelInt subjectModel = ModelFactory.getInstance().getSubjectModel();
 		CourseModelInt courseModel = ModelFactory.getInstance().getCourseModel();
 
+		
 		try {
 			List collegeList = collegeModel.list();
 			request.setAttribute("collegeList", collegeList);
@@ -149,11 +151,17 @@ public class FacultyCtl extends BaseCtl {
 		dto.setEmail(DataUtility.getString(request.getParameter("email")));
 
 		dto.setCollegeId(DataUtility.getLong(request.getParameter("collegeId")));
-
+        
 		dto.setCourseId(DataUtility.getLong(request.getParameter("courseId")));
-
+	//	System.out.println(request.getParameter("courseId"));
+		
+    //   dto.setCourseName(DataUtility.getString(request.getParameter("courseName")));
+        
 		dto.setSubjectId(DataUtility.getLong(request.getParameter("subjectId")));
-
+    //    System.out.println(request.getParameter("subjectId"));
+      
+	//	dto.setSubjectName(DataUtility.getString(request.getParameter("subjectName")));
+		
 		populateDTO(dto, request);
 
 		log.debug("FacultyCtl Method populatedto Ended");

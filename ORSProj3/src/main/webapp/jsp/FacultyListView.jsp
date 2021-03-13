@@ -55,16 +55,22 @@
 						if (ServletUtility.getErrorMessage(request) != null
 								&& ServletUtility.getErrorMessage(request).length() > 0) {
 					%>
+					
 					<div class="alert alert-danger">
 						<div class="container-fluid" style="text-align: left;">
 							<div class="alert-icon">
+							
 								<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+								
 							</div>
+							
 							<button type="button" class="close" data-dismiss="alert"
 								aria-label="Close">
 								<span aria-hidden="true"><i class="material-icons">clear</i></span>
 							</button>
+							
 							<b><%=ServletUtility.getErrorMessage(request)%></b>
+							
 						</div>
 					</div>
 					<%
@@ -81,7 +87,7 @@
 					@SuppressWarnings("unchecked")
 					List<FacultyDTO> list = (List<FacultyDTO>) ServletUtility.getList(request);
 					Iterator<FacultyDTO> it = list.iterator();
-
+                  
 					if (list.size() != 0) {
 				%>
 
@@ -182,8 +188,10 @@
 							</tr>
 						</thead>
 						<%
+						
 							while (it.hasNext()) {
 									Dto = it.next();
+									
 						%>
 						<tbody>
 							<tr>
@@ -198,6 +206,7 @@
 								<td><%=Dto.getSubjectName()%></td>
 								<td><%=Dto.getGender()%></td>
 								<td><%=Dto.getMobileNo()%></td>
+							
 								<%
 									SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 											String date = sdf.format(Dto.getDob());
@@ -259,9 +268,10 @@
 					}
 				%>
 			</div>
+			</form>
 	</div>
 
-	</form>
+	
 
 	
 </body>

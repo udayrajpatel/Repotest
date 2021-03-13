@@ -49,13 +49,13 @@ public long add(FacultyDTO dto) throws ApplicationException, DuplicateRecordExce
 	//get course name
 	CourseModelHibImpl coursemodel = new CourseModelHibImpl();
 	CourseDTO coursedto = coursemodel.findByPK(dto.getCourseId());
-	dto.setCourseName(dto.getCourseName());
+	dto.setCourseName(coursedto.getName());
 	
 	//get subject name
 	
 	SubjectModelHibImpl subjectModel = new SubjectModelHibImpl();
 	SubjectDTO subjectdto = subjectModel.findByPK(dto.getSubjectId());
-	dto.setSubjectName(dto.getSubjectName());
+	dto.setSubjectName(subjectdto.getName());
 	
 	FacultyDTO dtoExist = findByEmail(dto.getEmail());
 	if(dtoExist != null){

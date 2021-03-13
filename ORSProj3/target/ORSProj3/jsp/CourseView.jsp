@@ -73,7 +73,7 @@
 										&& ServletUtility.getErrorMessage(request).length() > 0) {
 							%>
 							<div class="alert alert-danger">
-								<div class="container" style="text-align: center;">
+								<div class="container-fluid" style="text-align: left;">
 									<div class="alert-icon">
 										<i class="fa fa-exclamation-circle " aria-hidden="true"></i>
 									</div>
@@ -95,7 +95,7 @@
 										</span>
 									</div>
 									<input type="text" class="form-control"
-										placeholder="Enter Your First Name..." name="name"
+										placeholder="Enter Your CourseName" name="name"
 										value="<%=DataUtility.getStringData(dto.getName())%>">
 									<%
 										if (DataValidator.isNotNull(ServletUtility.getErrorMessage("name", request))) {

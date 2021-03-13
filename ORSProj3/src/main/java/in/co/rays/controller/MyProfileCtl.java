@@ -28,8 +28,9 @@ import org.apache.log4j.Logger;
  */
 
 @WebServlet(name = "MyProfileCtl", urlPatterns = { "/ctl/MyProfileCtl" })
+
 public class MyProfileCtl extends BaseCtl {
-	
+
 	/**
 	 * Default serial version ID
 	 */
@@ -55,7 +56,7 @@ public class MyProfileCtl extends BaseCtl {
 		}
 
 		if (DataValidator.isNull(request.getParameter("firstName"))) {
-			System.out.println("firstName" + request.getParameter("firstName"));
+			// System.out.println("firstName" + request.getParameter("firstName"));
 			request.setAttribute("firstName", PropertyReader.getValue("error.require", "First Name"));
 			pass = false;
 		} else if (!DataValidator.isName(request.getParameter("firstName"))) {
@@ -99,6 +100,7 @@ public class MyProfileCtl extends BaseCtl {
 
 	@Override
 	protected BaseDTO populateDTO(HttpServletRequest request) {
+
 		log.debug("MyProfileCtl Method populatedto Started");
 
 		UserDTO dto = new UserDTO();
@@ -106,17 +108,22 @@ public class MyProfileCtl extends BaseCtl {
 		dto.setId(DataUtility.getLong(request.getParameter("id")));
 
 		dto.setLogin(DataUtility.getString(request.getParameter("login")));
-
+		System.out.println(dto.getLogin());
 		dto.setFirstName(DataUtility.getString(request.getParameter("firstName")));
-
+		System.out.println(dto.getFirstName());
 		dto.setLastName(DataUtility.getString(request.getParameter("lastName")));
-
+		System.out.println(dto.getLastName());
 		dto.setMobileNo(DataUtility.getString(request.getParameter("mobileNo")));
-
+		System.out.println(dto.getMobileNo());
 		dto.setGender(DataUtility.getString(request.getParameter("gender")));
-
+		System.out.println(dto.getGender());
 		dto.setDob(DataUtility.getDate(request.getParameter("dob")));
-
+		System.out.println(dto.getDob());
+		/*
+		 * dto.setPassword(DataUtility.getString(request.getParameter("password")));
+		 * dto.setConfirmPassword(DataUtility.getString(request.getParameter(
+		 * "confirmPassword")));
+		 */
 		populateDTO(dto, request);
 
 		return dto;
@@ -132,8 +139,9 @@ public class MyProfileCtl extends BaseCtl {
 
 		UserDTO UserDTO = (UserDTO) session.getAttribute("user");
 		long id = UserDTO.getId();
+		System.out.println(id + "--------");
 		String op = DataUtility.getString(request.getParameter("operation"));
-
+		System.out.println(op);
 		// get model
 		UserModelInt model = ModelFactory.getInstance().getUserModel();
 		if (id > 0 || op != null) {
@@ -158,11 +166,16 @@ public class MyProfileCtl extends BaseCtl {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		System.out.println("dopost of myprofile start");
+
 		HttpSession session = request.getSession(true);
+
 		log.debug("MyprofileCtl Method doPost Started");
 
 		UserDTO UserDTO = (UserDTO) session.getAttribute("user");
 		long id = UserDTO.getId();
+
 		String op = DataUtility.getString(request.getParameter("operation"));
 
 		// get model
@@ -172,11 +185,18 @@ public class MyProfileCtl extends BaseCtl {
 			UserDTO dto = (UserDTO) populateDTO(request);
 			try {
 				if (id > 0) {
+					System.out.println("hello i am in myprofile udate operation");
+
+				//	UserDTO.setLogin(dto.getLogin());
 					UserDTO.setFirstName(dto.getFirstName());
 					UserDTO.setLastName(dto.getLastName());
 					UserDTO.setGender(dto.getGender());
 					UserDTO.setMobileNo(dto.getMobileNo());
 					UserDTO.setDob(dto.getDob());
+
+					// UserDTO.setPassword(dto.getPassword());
+					// UserDTO.setConfirmPassword(dto.getConfirmPassword());
+
 					model.update(UserDTO);
 
 				}

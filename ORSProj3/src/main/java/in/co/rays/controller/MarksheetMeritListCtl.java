@@ -101,7 +101,7 @@ public class MarksheetMeritListCtl extends BaseCtl {
 		try {
 			if (OP_BACK.equalsIgnoreCase(op)) {
 				
-				ServletUtility.redirect(ORSView.WELCOME_CTL, request, response);
+				ServletUtility.redirect(ORSView.MARKSHEET_MERIT_LIST_CTL, request, response);
 				return;
 			}
 			list = model.getMeritList(0,10);

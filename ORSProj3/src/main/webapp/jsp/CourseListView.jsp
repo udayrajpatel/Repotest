@@ -51,8 +51,10 @@
 						}
 					%>
 					<%
+					
 						if (ServletUtility.getErrorMessage(request) != null
 								&& ServletUtility.getErrorMessage(request).length() > 0) {
+							
 					%>
 					<div class="alert alert-danger"
 						style="line-height: 10gpx; margin-left: 20px; margin-right: 20px;">
@@ -100,7 +102,8 @@
                       <i class="fa fa-search-plus" aria-hidden="true" style="color: #fff"></i>
                     </span>
                   </div>
-                <%=HTMLUtility.getList("courseId", String.valueOf(dto.getId()), courseList)%>              
+                <%=HTMLUtility.getList("courseId", String.valueOf(dto.getId()), courseList)%>     
+                         
                   </div>
               </div>
             </div>       
@@ -202,8 +205,10 @@
 		</form>
 	</div>
 	
-	<%@include file="Footer.jsp"%>
+	
 	
 	</body>
-
+	<div style="margin-top: 100%">
+<%@include file="Footer.jsp"%>
+</div>
 </html>

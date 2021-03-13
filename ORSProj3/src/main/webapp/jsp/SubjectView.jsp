@@ -86,9 +86,7 @@
 							<div class="alert alert-danger"
 								>
 								<div class="container-fluid" style="text-align: center;">
-									<div class="alert-icon">
-										<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-									</div>
+								
 									<button type="button" class="close" data-dismiss="alert"
 										aria-label="Close">
 										<span aria-hidden="true"><i class="material-icons">clear</i></span>

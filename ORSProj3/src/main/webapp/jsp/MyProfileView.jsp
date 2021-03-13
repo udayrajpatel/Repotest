@@ -33,7 +33,8 @@
 
 					<div class="card card-login">
 
-						<form class="form" method="post" action="<%=ORSView.USER_CTL%>">
+						<form class="form" method="post"
+							action="<%=ORSView.MY_PROFILE_CTL%>">
 
 							<div class="card-header card-header-primary text-center">
 
@@ -116,6 +117,7 @@
 									<input type="email" class="form-control"
 										placeholder="Enter Your LoginId..." name="login"
 										value="<%=DataUtility.getStringData(dto.getLogin())%>">
+
 								</div>
 								<p class="description text-right">
 
@@ -156,7 +158,7 @@
 									</div>
 									<input type="text" class="form-control datetimepicker"
 										placeholder="Enter Your DOB..." name="dob"
-										value="<%=DataUtility.getStringData(dto.getDob())%>">
+										value="<%=DataUtility.getDate(dto.getDob())%>">
 								</div>
 								<p class="description text-right">
 									<font color="red"><%=ServletUtility.getErrorMessage("dob", request)%></font>
@@ -175,10 +177,14 @@
 
 										String htmlList = HTMLUtility.getList("gender", dto.getGender(), map);
 									%>
+
 									<%=htmlList%>
+
 								</div>
 								<p class="description text-right">
+
 									<font color="red"><%=ServletUtility.getErrorMessage("gender", request)%></font>
+									
 								</p>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -195,12 +201,15 @@
 								</p>
 							</div>
 
-							<div class="row d-flex justify-content-center"	style="margin-left: 3%">
+							<div class="row d-flex justify-content-center"
+								style="margin-left: 3%">
+
 								<button class="btn btn-primary btn-round" name="operation"
 									type="submit" value="<%=MyProfileCtl.OP_SAVE%>">Save</button>
 
+
 								<button class="btn btn-primary btn-round" name="operation"
-									type="submit" value="<%=MyProfileCtl.OP_CHANGE_MY_PASSWORD%>">Update</button>
+									type="submit" value="<%=MyProfileCtl.OP_CHANGE_MY_PASSWORD%>">Pwd</button>
 
 							</div>
 

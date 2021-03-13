@@ -212,9 +212,11 @@ public class ModelFactory {
 				subjectModel = new SubjectModelHibImpl();
 
 			}
+			
 			if ("JDBC".equals(DATABASE)) {
 
 				subjectModel = new SubjectModelJDBCImpl();
+				
 			}
 			modelCache.put("subjectModel", subjectModel);
 

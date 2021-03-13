@@ -1,4 +1,5 @@
 package in.co.rays.controller;
+
 import in.co.rays.dto.BaseDTO;
 import in.co.rays.dto.FacultyDTO;
 import in.co.rays.exception.ApplicationException;
@@ -24,7 +25,7 @@ import org.apache.log4j.Logger;
  * Faculty List functionality Controller. Performs operation for list, search
  * and delete operations of Faculty
  * 
- *  @author uday
+ * @author uday
  *
  */
 
@@ -41,30 +42,28 @@ public class FacultyListCtl extends BaseCtl {
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected void preload(HttpServletRequest request) {
-		
-		SubjectModelInt subjectModel = ModelFactory.getInstance().getSubjectModel();
+
+        SubjectModelInt subjectModel = ModelFactory.getInstance().getSubjectModel();
 		
 		CourseModelInt courseModel = ModelFactory.getInstance().getCourseModel();
-		
-		
+
 		try {
-			
+
 			List subjectList = subjectModel.list();
-		
-			System.out.println(subjectList);
-			
+
+		//	System.out.println(subjectList+"subjectlist...");
+
 			request.setAttribute("subjectList", subjectList);
-			
+
 			List courseList = courseModel.list();
-			
-			System.out.println(courseList);
-			
+
+		//	System.out.println(courseList+"courselist.......");
+
 			request.setAttribute("courseList", courseList);
-			
 
 		} catch (ApplicationException e) {
 			log.error(e);
-			
+
 		}
 
 	}
@@ -76,44 +75,74 @@ public class FacultyListCtl extends BaseCtl {
 
 		dto.setFirstName(DataUtility.getString(request.getParameter("firstName")));
 		dto.setLastName(DataUtility.getString(request.getParameter("lastName")));
+		
 		dto.setEmail(DataUtility.getString(request.getParameter("email")));
-		dto.setSubjectId(DataUtility.getLong(request.getParameter("subject")));
+		
 		dto.setCourseId(DataUtility.getLong(request.getParameter("courseId")));
+		dto.setSubjectName(DataUtility.getString(request.getParameter("subjectName")));
 		
+        System.out.println(request.getParameter("subjectName")+"...........");
+        System.out.println(request.getParameter("subjectId"));
+        
+        dto.setCourseId(DataUtility.getLong(request.getParameter("courseId")));
+		dto.setCourseName(DataUtility.getString(request.getParameter("courseName")));
+		
+		
+        System.out.println(request.getParameter("courseName"));
+        System.out.println(request.getParameter("courseId"));
+       
+           
+		/*
+		 * dto.setCourseId(DataUtility.getLong(request.getParameter("courseId")));
+		 * dto.setSubjectId(DataUtility.getLong(request.getParameter("subjectId")));
+		 * dto.setFirstName(DataUtility.getString(request.getParameter("firstName")));
+		 * dto.setId(DataUtility.getLong(request.getParameter("facultyId")));
+		 * dto.setEmailId(DataUtility.getString(request.getParameter("loginId")));
+		 * dto.setLastName(DataUtility.getString(request.getParameter("lastName")));
+		 */   
+        
+        
+        
+        
 		return dto;
-		
+
 	}
 
 	/**
 	 * Contains Display logics
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
-	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		log.debug("FacultyListCtl doGet Start");
 		List list = null;
 		List next = null;
 
 		int pageNo = 1;
-
+       
 		int pageSize = DataUtility.getInt(PropertyReader.getValue("page.size"));
 
 		FacultyDTO dto = (FacultyDTO) populateDTO(request);
 
 		@SuppressWarnings("unused")
+		
 		String op = DataUtility.getString(request.getParameter("operation"));
 
 		FacultyModelInt model = ModelFactory.getInstance().getFacultyModel();
+
 		try {
+
 			list = model.search(dto, pageNo, pageSize);
 			next = model.search(dto, pageNo + 1, pageSize);
-			// ServletUtility.setList(list, request);
+			ServletUtility.setList(list, request);
+		
 			if (list == null || list.size() == 0) {
-				
+
 				ServletUtility.setErrorMessage("No record found ", request);
-				
+
 			}
-			
+
 			request.setAttribute("nextListSize", next.size());
 			ServletUtility.setList(list, request);
 			ServletUtility.setDto(dto, request);
@@ -139,17 +168,22 @@ public class FacultyListCtl extends BaseCtl {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		log.debug("FacultyListCtl doPost Start");
-		
+
 		List list = null;
 		List next = null;
 
 		int pageNo = DataUtility.getInt(request.getParameter("pageNo"));
+
 		int pageSize = DataUtility.getInt(request.getParameter("pageSize"));
+
 		pageNo = (pageNo == 0) ? 1 : pageNo;
+
 		pageSize = (pageSize == 0) ? DataUtility.getInt(PropertyReader.getValue("page.size")) : pageSize;
 
 		FacultyDTO dto = (FacultyDTO) populateDTO(request);
+
 		String op = DataUtility.getString(request.getParameter("operation"));
+
 		FacultyModelInt model = ModelFactory.getInstance().getFacultyModel();
 
 		// get the selected checkbox ids array for delete list
@@ -174,9 +208,13 @@ public class FacultyListCtl extends BaseCtl {
 				if (ids != null && ids.length > 0) {
 					FacultyDTO deletedto = new FacultyDTO();
 					for (String id : ids) {
+
 						deletedto.setId(DataUtility.getLong(id));
+
 						model.delete(deletedto);
+
 						ServletUtility.setSuccessMessage("Data is deleted successfully", request);
+
 					}
 				} else {
 					ServletUtility.setErrorMessage("Select at least one record", request);
@@ -185,7 +223,7 @@ public class FacultyListCtl extends BaseCtl {
 				ServletUtility.redirect(ORSView.FACULTY_LIST_CTL, request, response);
 				return;
 			} else if (OP_BACK.equalsIgnoreCase(op)) {
-				ServletUtility.redirect(ORSView.WELCOME_CTL, request, response);
+				ServletUtility.redirect(ORSView.FACULTY_LIST_CTL, request, response);
 				return;
 			}
 
@@ -193,28 +231,39 @@ public class FacultyListCtl extends BaseCtl {
 			Collections.sort(list);
 			next = model.search(dto, pageNo + 1, pageSize);
 			ServletUtility.setList(list, request);
+
 			if (!OP_DELETE.equalsIgnoreCase(op)) {
+
 				if (list == null || list.size() == 0) {
+
 					ServletUtility.setErrorMessage("No record found ", request);
 				}
 			}
 			ServletUtility.setList(list, request);
 			ServletUtility.setDto(dto, request);
+			
 			request.setAttribute("nextListSize", next.size());
+
 			ServletUtility.setPageNo(pageNo, request);
+
 			ServletUtility.setPageSize(pageSize, request);
+
 			ServletUtility.forward(getView(), request, response);
 
 		} catch (ApplicationException e) {
+
 			log.error(e);
 			ServletUtility.handleException(e, request, response);
 			return;
+
 		}
 		log.debug("FacultyListCtl doGet End");
 	}
 
 	@Override
 	protected String getView() {
+
 		return ORSView.FACULTY_LIST_VIEW;
+
 	}
 }

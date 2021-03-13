@@ -197,10 +197,10 @@
 
 							<div class="row d-flex justify-content-center"	style="margin-left: 3%">
 								<button class="btn btn-primary btn-round" name="operation"
-									type="submit" value="<%=MyProfileCtl.OP_SAVE%>">Save</button>
+									type="submit" value="<%=MyProfileCtl.OP_UPDATE%>">Update</button>
 
 								<button class="btn btn-primary btn-round" name="operation"
-									type="submit" value="<%=MyProfileCtl.OP_CHANGE_MY_PASSWORD%>">Update</button>
+									type="submit" value="<%=MyProfileCtl.OP_CHANGE_MY_PASSWORD%>">Up Passw</button>
 
 							</div>
 

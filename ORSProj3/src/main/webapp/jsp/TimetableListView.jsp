@@ -73,12 +73,7 @@
 					%>
 					<div class="alert alert-danger">
 
-						<div class="container-fluid" style="text-align: left;">
-							<div class="alert-icon">
-
-								<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-
-							</div>
+						<div class="container-fluid" style="text-align: center;">
 
 							<button type="button" class="close" data-dismiss="alert"
 								aria-label="Close">
@@ -159,11 +154,9 @@
 								<div class="input-group">
 									<div class="input-group-prepend">
 
-										<span class="input-group-text"> 
-										
-										<i class="fa fa-search-plus" aria-hidden="true"
-											style="color: #fff"> </i>
-											
+										<span class="input-group-text"> <i
+											class="fa fa-search-plus" aria-hidden="true"
+											style="color: #fff"> </i></span>
 									</div>
 
 									<input type="text"
@@ -237,6 +230,7 @@
 									value="<%=dto.getId()%>"></td>
 								<td class="text-center"><%=index++%></td>
 								<td class="text-center"><%=dto.getCourseName()%></td>
+								
 								<td class="text-center"><%=dto.getSubjectName()%></td>
 								<td class="text-center"><%=dto.getSemester()%></td>
 								<%
@@ -253,6 +247,10 @@
 										<i class="fa fa-trash" aria-hidden="true"></i>
 									</button>
 
+								
+								
+								
+								
 								</td>
 								<td class="text-center"><a
 									href="TimetableCtl?id=<%=dto.getId()%>"> <i
@@ -293,10 +291,11 @@
 					if (list.size() == 0) {
 				%>
 				<div class="row">
-					<div class="col-md-6 d-flex justify-content-center">
+					<div class="col-sm-6 col-md-6 d-flex justify-content-center">
 
 						<button class="btn btn-primary" type="submit" name="operation"
 							value="<%=TimetableListCtl.OP_BACK%>">Back</button>
+
 					</div>
 				</div>
 				<%

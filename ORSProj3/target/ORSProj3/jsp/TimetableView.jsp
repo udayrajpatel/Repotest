@@ -24,12 +24,9 @@
 </head>
 
 <body style="background-image: url('<%=ORSView.APP_CONTEXT%>/img/bg1.jpg');">
-<%@ include file="Header.jsp"%>
-	
-
-	<jsp:useBean id="dto" class="in.co.rays.dto.TimetableDTO"
+<jsp:useBean id="dto" class="in.co.rays.dto.TimetableDTO"
 		scope="request"></jsp:useBean>
-
+<%@ include file="Header.jsp"%>
 
 	<%
 		List<CourseDTO> courseList = (List<CourseDTO>) request.getAttribute("courseList");
@@ -48,7 +45,7 @@
 					
 						<form class="form" method="post" action="<%=ORSView.TIMETABLE_CTL%>">
 						
-							<div class="card-header card-header-primary text-center">
+							<div class="card-header  text-center">
 								<h4 class="card-title">
 									<%
 										if (dto != null && dto.getId() > 0) {

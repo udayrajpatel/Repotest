@@ -1,6 +1,6 @@
 package in.co.rays.dto;
-
 import java.util.Date;
+
 /**
  * Faculty DTO encapsulates Faculty attributes
  * @author uday
@@ -165,7 +165,7 @@ public class FacultyDTO extends BaseDTO {
 
 	public String getValue() {
 		
-		return firstName + "" + lastName;
+		return firstName + "" + lastName ;
 		
 	}
 

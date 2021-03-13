@@ -156,7 +156,7 @@ public class MarksheetListCtl extends BaseCtl {
 				ServletUtility.redirect(ORSView.MARKSHEET_LIST_CTL, request, response);
 				return;
 			} else if (OP_BACK.equalsIgnoreCase(op)) {
-				ServletUtility.redirect(ORSView.WELCOME_CTL, request, response);
+				ServletUtility.redirect(ORSView.MARKSHEET_LIST_CTL, request, response);
 				return;
 			}
 

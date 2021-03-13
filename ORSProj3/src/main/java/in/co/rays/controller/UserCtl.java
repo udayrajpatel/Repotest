@@ -84,8 +84,10 @@ public class UserCtl extends BaseCtl {
 			request.setAttribute("password", PropertyReader.getValue("error.require", "Password"));
 			pass = false;
 		} else if (!DataValidator.isPasswordLength(password)) {
+			
 			request.setAttribute("password", "Password should be 8 to 12 characters");
 			pass = false;
+			
 		} else if (!DataValidator.isPassword(password)) {
 			request.setAttribute("password", "Must contain uppercase, lowercase, digit & special character");
 			pass = false;
@@ -97,8 +99,10 @@ public class UserCtl extends BaseCtl {
 		}
 
 		if (DataValidator.isNull(request.getParameter("gender"))) {
+			
 			request.setAttribute("gender", PropertyReader.getValue("error.require", "Gender"));
 			pass = false;
+			
 		}
 		if (DataValidator.isNull(dob)) {
 			request.setAttribute("dob", PropertyReader.getValue("error.require", "Date of Birth"));
@@ -121,11 +125,13 @@ public class UserCtl extends BaseCtl {
 			request.setAttribute("mobileNo", "Invalid Mobile No");
 			pass = false;
 		}
-		if (!request.getParameter("password").equals(request.getParameter("confirmPassword"))
-				&& !"".equals(request.getParameter("confirmPassword"))) {
-			request.setAttribute("confirmPassword", "Password and Confirm Password must be Same!");
-			pass = false;
-		}
+		
+		  if (!request.getParameter("password").equals(request.getParameter(
+		  "confirmPassword")) && !"".equals(request.getParameter("confirmPassword"))) {
+		  
+		  request.setAttribute("confirmPassword",
+		  "Password and Confirm Password must be Same!"); pass = false; }
+		 
 
 		log.debug("UserCtl Method validate Ended");
 
@@ -210,7 +216,7 @@ public class UserCtl extends BaseCtl {
 				long pk = model.add(dto);
 				dto.setId(pk);
 
-				// ServletUtility.setDTO(dto, request);
+				 ServletUtility.setDto(dto, request);
 				ServletUtility.setSuccessMessage("Data is successfully saved", request);
 			} catch (ApplicationException e) {
 				log.error(e);
